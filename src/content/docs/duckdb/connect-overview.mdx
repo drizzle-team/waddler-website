@@ -17,9 +17,9 @@ Waddler runs SQL queries on your database via **database drivers**.
 
 <CodeTab>
 ```ts
-import { waddler } from "waddler/clickhouse"
+import { waddler } from "waddler/duckdb-neo"
 
-const sql = waddler(process.env.DATABASE_URL);
+const sql = waddler({ url: process.env.DATABASE_URL });
 const usersCount = await sql`select count(*) from ${sql.identifier('users')};`;
 ```
 ```  
@@ -27,11 +27,11 @@ const usersCount = await sql`select count(*) from ${sql.identifier('users')};`;
           │  sql`select count(*) from ${sql.identifier('users')};`  │ <--- waddler query
           └─────────────────────────────────────────────────────────┘     
                                │               ʌ
-select count(*) from `users`; -│               │
+select count(*) from "users"; -│               │
                                │               │- [{ count: 0 }]
                                v               │
                             ┌─────────────────────┐
-                            │     clickhouse      │ <--- database driver
+                            │     duckdb-neo      │ <--- database driver
                             └─────────────────────┘
                                │               ʌ
 01101000 01100101 01111001    -│               │
@@ -44,19 +44,18 @@ select count(*) from `users`; -│               │
 </CodeTab>
 </CodeTabs>
 
-Under the hood Waddler will create a **clickhouse** driver instance
+Under the hood, Waddler has a pool that creates a `duckdb-neo` driver instance when needed.
 <Section>
 ```ts
-// above is equivalent to
-import { waddler } from "waddler/clickhouse";
-import { createClient } from '@clickhouse/client';
+import { DuckDBInstance } from '@duckdb/node-api';
 
-const client = createClient({
-  // url should have the following format: http[s]://<user>:<password>@<host>:<port>/<database>
-  url: process.env.DATABASE_URL
+const instance = await DuckDBInstance.create(url, {
+	accessMode: 'read_write', // default value
+  maxMemory: '512MB', // default value
+  threads = '4' // default value
 });
-
-const sql = waddler({ client });
+const connection = await instance.connect();
+// The connection can then be used to query your database
 ```
 </Section>
 
@@ -109,14 +108,15 @@ const sql = waddler({ client: expo });
 
 #### Database connection URL
 Just in case if you're not familiar with database connection URL concept
-```
-https://alex:AbC123dEf@ep-cool-darkness-123456.com:8443/dbname
-        └──┘ └───────┘ └─────────────────────────┘ └──┘ └────┘
-          ʌ    ʌ          ʌ                          ʌ     ʌ
-    role -│    │          │- hostname                │     │ - database
-               │                                     │
-               │- password                           │ - port
 
+Local database file:
+```
+./<path-to-your-local-database-file>
+```
+
+MotherDuck connection string:
+```
+md:?motherduck_token=<token>
 ```
 #### Next steps
 Feel free to check out per-driver documentations  
@@ -126,7 +126,7 @@ Feel free to check out per-driver documentations
   <LinksList 
     title='PostgreSQL drivers'
     links={[
-        ["PostgreSQL", "/docs//connect-postgresql"], 
+        ["PostgreSQL", "/docs/connect-postgresql"], 
         ["Neon", "/docs/connect-neon"], 
         ["Vercel Postgres", "/docs/connect-vercel-postgres"],
         ["Supabase", "/docs/connect-supabase"],
@@ -137,37 +137,31 @@ Feel free to check out per-driver documentations
   <LinksList 
     title='Gel drivers'
     links={[
-        ["Gel", "/docs/gel/connect-gel"],
+        ["Gel", "/docs/connect-gel"],
       ]}
   />
   <LinksList 
     title='MySQL drivers'
     links={[
-        ["MySQL", "/docs/mysql/connect-mysql"], 
-        ["PlanetsScale", "/docs/mysql/connect-planetscale"], 
-        ["TiDB", "/docs/mysql/connect-tidb"],
+        ["MySQL", "/docs/connect-mysql"], 
+        ["PlanetsScale", "/docs/connect-planetscale"], 
+        ["TiDB", "/docs/connect-tidb"],
       ]}
   />
   <LinksList 
   title='SQLite drivers'
   links={[
-      ["SQLite", "/docs/sqlite/connect-sqlite"], 
-      ["Turso", "/docs/sqlite/connect-turso"], 
-      ["Cloudflare D1", "/docs/sqlite/connect-cloudflare-d1"],
-      ["Bun SQLite", "/docs/sqlite/connect-bun-sqlite"],
+      ["SQLite", "/docs/connect-sqlite"], 
+      ["Turso", "/docs/connect-turso"], 
+      ["Cloudflare D1", "/docs/connect-cloudflare-d1"],
+      ["Bun SQLite", "/docs/connect-bun-sqlite"],
     ]}
   />
   <LinksList 
   title='Native SQLite'
   links={[
-      ["Expo SQLite", "/docs/sqlite/get-started/expo-new"], 
-      ["OP SQLite", "/docs/sqlite/connect-op-sqlite"], 
-    ]}
-  />
-  <LinksList 
-  title='ClickHouse'
-  links={[
-      ["ClickHouse", "/docs/clickhouse/connect-clickhouse"], 
+      ["Expo SQLite", "/docs/get-started/expo-new"], 
+      ["OP SQLite", "/docs/connect-op-sqlite"], 
     ]}
   />
 </Flex>

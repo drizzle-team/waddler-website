@@ -40,6 +40,24 @@ Waddler has native support for ClickHouse connections with the `@clickhouse/clie
 
 <ConnectClickHouse/>
 
+<Callout type='info' title='important'>
+`.query()` and `.command()`
+######
+- Use ```sql`...`.query()``` for `select` queries:
+```ts
+const result = await sql`select * from ${sql.identifier('users')};`.query();
+```
+```ts
+// The above is equivalent to this, since .query() is the default
+const result = await sql`select * from ${sql.identifier('users')};`;
+```
+
+- Use ```sql`...`.command()``` for queries that do not return data:
+```ts
+await sql`insert into ${sql.identifier('users')} values ${sql.values([[...]])};`.command();
+```
+</Callout>
+
 #### Step 4 - Create a table
 
 <CreateTable />

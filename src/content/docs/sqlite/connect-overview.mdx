@@ -17,7 +17,7 @@ Waddler runs SQL queries on your database via **database drivers**.
 
 <CodeTab>
 ```ts
-import { waddler } from "waddler/node-postgres"
+import { waddler } from "waddler/better-sqlite3"
 
 const sql = waddler(process.env.DATABASE_URL);
 const usersCount = await sql`select count(*) from ${sql.identifier('users')};`;
@@ -31,7 +31,7 @@ select count(*) from "users"; -│               │
                                │               │- [{ count: 0 }]
                                v               │
                             ┌─────────────────────┐
-                            │    node-postgres    │ <--- database driver
+                            │   better-sqlite3    │ <--- database driver
                             └─────────────────────┘
                                │               ʌ
 01101000 01100101 01111001    -│               │
@@ -44,17 +44,15 @@ select count(*) from "users"; -│               │
 </CodeTab>
 </CodeTabs>
 
-Under the hood Waddler will create a **node-postgres** driver instance
+Under the hood Waddler will create a **better-sqlite3** driver instance
 <Section>
 ```ts
 // above is equivalent to
-import { waddler } from "waddler/node-postgres";
-import { Pool } from "pg";
+import { waddler } from "waddler/better-sqlite3";
+import Client from 'better-sqlite3';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-const sql = waddler({ client: pool });
+const client = new Client(process.env.DATABASE_URL);
+const sql = waddler({ client });
 ```
 </Section>
 
@@ -107,15 +105,18 @@ const sql = waddler({ client: expo });
 
 #### Database connection URL
 Just in case if you're not familiar with database connection URL concept
-```
-postgresql://alex:AbC123dEf@ep-cool-darkness-123456.us-east-2.aws.neon.tech/dbname
-             └──┘ └───────┘ └─────────────────────────────────────────────┘ └────┘
-              ʌ    ʌ          ʌ                                              ʌ
-        role -│    │          │- hostname                                    │- database
-                   │
-                   │- password
 
+Local database file:
 ```
+./<path-to-your-local-database-file>
+```
+
+Turso database url (for `waddler/libsql`):
+```
+libsql://<database>-<username>.aws-eu-west-1.turso.io
+```
+You should obtain your Turso database URL from the Turso website. The example above is provided only to illustrate the URL format.
+
 #### Next steps
 Feel free to check out per-driver documentations  
 
