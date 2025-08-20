@@ -1,0 +1,25 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# Waddler SQL unsafe
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+- `sql.raw` - [read here](/docs/sql-raw)
+</Prerequisites>
+<br/>
+
+`sql.unsafe` lets you use a client itself by providing sql string and params
+
+<Section>
+```ts
+const response = await sql.unsafe('select * from users where id = $1', [10]);
+```
+```sql
+select * from users where id = 10;
+```
+</Section>

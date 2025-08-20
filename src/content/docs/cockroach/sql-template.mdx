@@ -1,0 +1,40 @@
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# SQL template
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+</Prerequisites>
+
+SQL template is the core of Waddler.  
+```ts
+import { waddler } from "waddler/node-postgres";
+
+const sql = waddler(process.env.DATABASE_URL!);
+
+await sql`select 1`;
+```
+
+It's based on [tagged templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates). This enables powerful, safe, yet simple SQL API in JavaScript and TypeScript:
+```ts
+await sql`select * from users where id = ${10}`; 
+// ^ gets parametrised, protects from SQL injections
+```
+```sql
+select * from users where id = $1;
+-- 10 will be provided in params [10]
+```
+
+SQL template is packed with convenient goodies:
+
+|                  |                                                                       |
+| :--------------- | :-------------------------------------------------------------------- |
+| `sql.identifier` | conveniently pass identifiers to SQL query with automatic escaping    |
+| `sql.values`     | conveniently pass values to insert statements                         |
+| `sql.raw`        | dynamically build SQL by embedding raw strings                        |
+| `sql.default`    | SQL `DEFAULT` values for queries                                      |
+| `toSQL`          | prepares and converts sql query to `{ query: string, params: any[] }` |
+| `stream`         | streams result row by row                                             |
+| `chunked`        | streams result in chunks                                              |

@@ -1,0 +1,12 @@
+```typescript copy
+
+(async () => {
+  await sql.unsafe(`create table users (
+    id int4 primary key,
+    name string not null,
+    age int4 not null,
+    email string not null unique
+);
+  `);
+})()
+```

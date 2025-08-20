@@ -56,6 +56,26 @@ export const dbSwitcherItems: DbSwitcherItem[] = [
       },
     },
   },
+   {
+    id: "cockroach",
+    name: "CockroachDB",
+    path: "/docs/cockroach/overview",
+    icon: {
+      light: {
+        path: "/public/svg/cockroach.svg",
+        style: {
+          width: 18,
+        },
+      },
+      dark: {
+        path: "/public/svg/cockroach.svg",
+        style: {
+          width: 18,
+          fill: "#f0f0f0",
+        },
+      },
+    },
+  },
   {
     id: "clickhouse",
     name: "ClickHouse",

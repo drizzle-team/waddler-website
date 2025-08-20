@@ -1,0 +1,66 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# Waddler SQL values
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+</Prerequisites>
+<br/>
+
+`sql.values` lets you conveniently pass values to insert statements:
+
+<Section>
+```ts
+await sql`insert into "users" ("name") values ${sql.values([["Dan"]])}`;
+
+const values = sql.values([["Dan", "dan@acme.com", 25]]);
+await sql`insert into "users" ("name", "email", "age") values ${values}`;
+```
+```sql
+insert into "users" ("name") values ('Dan');
+insert into "users" ("name") values ('Dan', 'dan@acme.com', 25);
+```
+</Section>
+<Section>
+```ts
+const values = sql.values([
+	["Dan", "dan@acme.com", 25], 
+	["Oleksii", "oleksii@acme.com", 22]
+]);
+await sql`insert into "users" ("name", "email", "age") values ${values}`;
+```
+```sql
+insert into "users" ("name", "email", "age") values ('Dan', 'dan@acme.com', 25), ('Oleksii', 'oleksii@acme.com', 22);
+```
+</Section>
+
+Waddler provides a convinient [`sql.default`](/docs/sql-default) for SQL `DEFAULT` values:
+```ts
+const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
+await sql`insert into "users" ("name", "created_at") values ${values}`;
+```
+```sql
+insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', default);
+```
+
+Complete example with [`sql.identifier`](/docs/sql-identifier) and [`sql.default`](/docs/sql-default):
+<Section>
+```ts
+const table = sql.identifier("users")
+const columns = sql.identifier(["id", "name", "age"]);
+const values = sql.values([
+  [sql.default, "Oleksii", 20],
+  [sql.default, "Alex", 23],
+]);
+
+await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
+```
+```sql
+insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+```
+</Section>

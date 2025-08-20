@@ -1,0 +1,62 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# Waddler SQL append
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+- `sql.raw` - [read here](/docs/sql-raw)
+</Prerequisites>
+<br/>
+
+`sql.append` lets you conveniently append SQL templates:
+
+<Section>
+```ts
+const query = sql`select * from users where id = 10`;
+query.append(sql` or id = 20`);
+
+const result = await query;
+```
+```sql
+select * from users where id = 10 or id = 20;
+```
+</Section>
+
+It is an extremely useful API to build dynamic queries:
+<Section>
+```ts
+type Filter = {
+  key: string,
+  operator: "=" | "!=", 
+  value: string,
+}
+
+const listItems = async (params: {limit: number, offset?: number, filter?: Filter }) => {
+  const query = sql`select * from items`;
+
+  if(filter) {
+    query.append(sql` where ${sql.identifier(it.key)} ${sql.raw(it.operator)} ${it.value}`)
+  }
+
+  query.append(sql` limit ${params.limit}`);
+
+  if(params.offset) {
+    query.append(sql` offset ${params.offset}`);
+  }
+}
+
+await listItems({ limit: 50 });
+await listItems({ limit: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
+await listItems({ limit: 50, offset: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
+```
+```sql
+select * from items limit $1; -- [50] params
+select * from items where "name" = $1 limit $2; -- ["Item 1", 50] params
+select * from items where "name" = $1 limit $2 offset $3; -- ["Item 1", 50, 50] params
+```
+</Section>

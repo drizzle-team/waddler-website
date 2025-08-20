@@ -1,0 +1,57 @@
+import Callout from '@mdx/Callout.astro';
+import Npm from '@mdx/Npm.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+
+# Waddler chunked
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- Waddler Extensions - [read here](/docs/extensions)
+</Prerequisites>
+<br/>
+
+<Callout type='info' title='Note'>
+Chunks feature is not implemented in `postgres.js`, `xata-http`, `pglite`, `neon-http`, `bun-sql`
+
+All other drivers have support for it
+</Callout>
+
+`.chunked()` lets you stream query result rows in chunks:
+
+<Callout type='warning'>
+To enable streaming in chunks in `node-postgres` and other PostgreSQL drivers, 
+you need to install [`pg-query-stream`](https://www.npmjs.com/package/pg-query-stream) and the `query-stream` extension that provides streaming support.
+You can read more about extensions [here](/docs/extensions)
+
+<Npm>
+pg-query-stream
+</Npm>
+
+```ts
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+
+const sql = waddler(process.env.DATABASE_URL!, { extensions: [queryStream()] })
+```
+</Callout>
+
+```ts
+const result = sql`select * from users`.chunked(2);
+
+for await (const chunk of result) {
+  console.log(chunk);
+}
+```
+```shell
+[
+	{
+  	id: 1,
+		name: "Alex",
+	},
+	{
+	  id: 2,
+		name: "Oleksii",
+	}
+]
+…
+```

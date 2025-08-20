@@ -1,0 +1,62 @@
+import Prerequisites from '@mdx/Prerequisites.astro';
+import Section from '@mdx/Section.astro';
+
+# Standalone SQL template
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+</Prerequisites>
+<br/>
+
+With Waddler you can also use an `sql` without a database connections in cases where you want to just build a query
+or compose a part of a query to reuse it in different places. Let's check both scenarios
+
+Building a query string and params without a database conenction
+<Section>
+```ts
+import { sql } from "waddler/pg"
+
+// You can then reuse this query in other sql statements
+const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
+
+console.log(sqlQuery.toSQL());
+```
+```sql
+select "id" from "users";
+```
+</Section>
+
+Building parts of a query in common functions and use it in a main sql query
+<Section>
+```ts
+// sql-builder.ts
+import { SQL } from "waddler";
+import { sql } from "waddler/pg";
+
+export type Filters = {
+    email: string,
+    age: number,
+}
+
+export function buildFilters(filters: Filters): SQL {
+    return sql`${sql.identifier('email')} = ${filters.email} 
+                and ${sql.identifier('age')} = ${filters.age}`
+}
+
+```
+```ts
+// index.ts
+import { waddler } from 'waddler/...'
+import { buildFilters } from './sql-builder.ts'
+
+const sql = waddler(process.env.DATABASE_URL);
+
+await sql`select * from ${sql.identifier("users")} 
+    where ${buildFilters({ email: 'test@gmail.com', age 21 })}`
+```
+```sql
+select * from "users" where "email" = $1 and "age" = $2
+-- params: ['test@gmail.com', 21]
+```
+</Section>

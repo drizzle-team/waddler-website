@@ -1,0 +1,31 @@
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# Waddler types
+
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+- `sql.values` - [read here](/docs/sql-values)
+</Prerequisites>
+
+<br/>
+
+Waddler `sql` template lets you define result return types:
+
+```ts
+const result = await sql<{ id: number, name: string }>`select * from "users"`;
+
+// or
+type User = { id: number, name: string };
+const result: User[] = await sql<User>`select * from "users"`;
+
+result[0].id; // ✓ works
+result[0].name; // ✓ works
+
+result[0].unknown;
+// ^ TS error
+```

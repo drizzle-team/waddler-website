@@ -1,0 +1,83 @@
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Section from '@mdx/Section.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+
+# Waddler SQL identifier
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+</Prerequisites>
+<br/>
+
+`sql.identifier` lets you conveniently pass identifiers to SQL query with automatic escaping:
+<Section>
+```ts
+await sql`select * from ${sql.identifier("users")}`;
+await sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
+await sql`select ${sql.identifier(["id", "name", "email"])} from ${sql.identifier("users")}`;
+```
+```sql
+select * from "users";
+select "id" from "users";
+select "id", "name", "email" from "users";
+```
+</Section>
+
+You can explicitely provide `schema`, `table` and `column` to the query:
+<CodeTabs items={["tables", "columns", "columns and tables"]}>
+<Section>
+```ts
+const users = sql.identifier({ schema: "public", table: "users" });
+await sql`select * from ${users}`;
+```
+```sql
+select * from "public"."users";
+```
+</Section>
+<Section>
+```ts
+const id = sql.identifier({ schema: "public", table: "users", column: "id" });
+await sql`select ${id} from "users"`;
+
+const multipleColumns = sql.identifier([
+	{ schema: "public", table: "users", column: "id" }
+	{ schema: "public", table: "users", column: "name" }
+	{ schema: "public", table: "users", column: "email" }
+]);
+await sql`select ${multipleColumns} from "users"`;
+```
+```sql
+select "public"."users"."id" from "users";
+select "public"."users"."id", "public"."users"."name", "public"."users"."email" from "users";
+```
+</Section>
+<Section>
+```ts
+const table = sql.identifier({ schema: "public", table: "users" })
+const columns = sql.identifier([
+	{ ...table, column: "id" }
+	{ ...table, column: "name" }
+	{ ...table, column: "email" }
+]);
+await sql`select ${columns} from ${table}`;
+```
+```sql
+select "public"."users"."id", "public"."users"."name", "public"."users"."email" from "public"."users";
+```
+</Section>
+</CodeTabs>
+
+SQL identifier has support for `as`:
+<Section>
+```ts
+const table = sql.identifier({ schema: "public", table: "users", as: "u" })
+const id = sql.identifier({ table: "u", column: "id", as: "userId" });
+await sql`select ${columns} from ${table}`;
+```
+```sql
+select "u"."id" as "userId" from "public"."users" "u";
+```
+</Section>

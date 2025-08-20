@@ -1,0 +1,82 @@
+import Callout from '@mdx/Callout.astro';
+import Npm from '@mdx/Npm.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import Section from '@mdx/Section.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+
+# Waddler stream
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- Waddler Extensions - [read here](/docs/extensions)
+</Prerequisites>
+<br/>
+
+<Callout type='info' title='Note'>
+Stream is not implemented in `postgres.js`, `xata-http`, `pglite`, `neon-http`, `bun-sql`
+
+All other drivers have support for a stream feature
+</Callout>
+
+`.stream()` lets you stream query result rows one by one:
+
+<Callout type='warning'>
+To enable streaming in `node-postgres` and other PostgreSQL drivers, 
+you need to install [`pg-query-stream`](https://www.npmjs.com/package/pg-query-stream) and the `query-stream` extension that provides streaming support.
+You can read more about extensions [here](/docs/extensions)
+
+<Npm>
+pg-query-stream
+</Npm>
+
+```ts
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+
+const sql = waddler(process.env.DATABASE_URL!, { extensions: [queryStream()] })
+```
+</Callout>
+
+<CodeTabs items={["for await", "generator"]}>
+<Section>
+```ts
+const result = sql`select * from users`.stream();
+
+for await (const row of result) {
+  console.log(row);
+}
+```
+```shell
+{
+  id: 1,
+	name: "Alex",
+}
+{
+  id: 2,
+	name: "Oleksii",
+}
+```
+</Section>
+<Section>
+```ts
+const generator = sql`select * from users`.stream();
+
+let result = await generator.next();
+while (!result.done) {
+  console.log(result.value);
+
+  result = await generator.next();
+}
+```
+```shell
+{
+  id: 1,
+	name: "Alex",
+}
+{
+  id: 2,
+	name: "Oleksii",
+}
+```
+</Section>
+</CodeTabs>

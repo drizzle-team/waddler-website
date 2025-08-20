@@ -1,0 +1,48 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+
+# SQL raw
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
+- Waddler SQL template - [read here](/docs/sql-template)
+- `sql.identifier` - [read here](/docs/sql-identifier)
+- `sql.values` - [read here](/docs/sql-values)
+</Prerequisites>
+<br/>
+
+`sql.raw` lets you dynamically build SQL by embedding raw strings:
+
+<Callout type="warning">
+Beware `sql.raw` does not get escaped and going to be embedded into SQL statement as is
+</Callout>
+
+<Section>
+```ts
+await sql`select * from "users" ${sql.raw("where id = 10")}`
+```
+```sql
+select * from "users" where id = 10;
+```
+</Section>
+
+<Section>
+```ts
+const listUsers = async (filter: string | undefined) => {
+  const whereClause = filter ? sql.raw(` where ${filter}`) : sql.raw("");
+  return sql`select * from "users"${whereClause}`;
+}
+
+await listUsers(`"id" = 10`);
+await listUsers(`"name" = 'Dan'`);
+await listUsers();
+```
+```sql
+select * from "users" where "id" = 10;
+select * from "users" where "name" = 'Dan';
+select * from "users";
+```
+</Section>

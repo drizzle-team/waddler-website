@@ -1,0 +1,88 @@
+# Types Mapping
+
+Waddler parametrizes queries before sending them to the database.
+
+For full list of database types, see https://www.cockroachlabs.com/docs/stable/data-types .
+
+### `${...}`
+
+For queries like this:
+```ts
+await sql`select ${-2_147_483_648} as min_int32;`
+
+// query: "select $1::int4 as min_int32;"
+// params: [-2147483648]
+```
+
+The mapping from JavaScript values to database types during query parameterization is as follows:
+|  | Value category                       | Example                              | `<database type>`
+|:-| :--------                            | :--------                            | :--------    
+|  | `integers (within 32-bit range)`     |`${-2147483648}` or `${3}`            | `$1::int4`    
+|  | `53-bit integers (JS safe integers)` |`${1754055760745}`                    | `$1::int8`    
+|  | `bigint`                             |`${1754055760745n}` or `${BigInt(3)}` | `$1::int8`      
+
+> By default, any JavaScript values not covered above are not assigned an explicit cast type.
+
+To override the inferred type, wrap your value with `sql.param(value, dbType)`. Check [sql.param docs](/docs/cockroach/sql-param) for more details
+
+Example
+```ts {7}
+await sql`select * from students where height = ${185.5};`
+
+// query: "select * from students where height = $1;"
+// params: [185.5]
+
+// sql.param
+await sql`select * from students where height = ${sql.param(185.5, 'float')};`
+
+// query: "select * from students where height = $1::float;"
+// params: [185.5]
+```
+### `sql.values`
+
+For queries like this:
+```ts
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`
+
+// query: "insert into users (id, name, age) values ($1,$2,$3);"
+// params: [1, "alex", 23]
+```
+
+To override the inferred types, pass an array of CockroachDB data types as the second argument to `sql.values`. For example:
+```ts
+sql.values([[row_values]], ['int4', 'float'])
+```
+This array specifies the database type for each column value.
+If you omit it - or if it has fewer entries than columns - the missing types will not be applied in the query.
+
+Examples:
+```ts {6}
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`
+
+// query: "insert into users (id, name, age) values ($1,$2,$3);"
+// params: [1, "alex", 23]
+
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['int4', 'string', 'int4'])};`
+
+// query: "insert into users (id, name, age) values ($1::int4,$2::string,$3::int4);"
+// params: [1, "alex", 23]
+```
+
+```ts
+// omitting types
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['int4', 'string'])};`
+
+// query: "insert into users (id, name, age) values ($1::int4,$2::string,$3);"
+// params: [1, "alex", 23]
+```
+
+```ts
+// omitting types
+const types: string[] = [];
+types[1] = 'string';
+
+await sql`insert into users (id, slug, age) values ${sql.values([[1, 'alex', 23]], types)};`
+
+// query: "insert into users (id, slug, age) values ($1,$2::string,$3);"
+// params: [1, "alex", 23]
+```

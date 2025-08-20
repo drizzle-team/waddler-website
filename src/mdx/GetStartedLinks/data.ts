@@ -218,6 +218,35 @@ export const getStartedItems: GetStartedItems = [
       },
     ],
   },
+  {
+    title: "CockroachDB",
+    items: [
+      {
+        name: "CockroachDB",
+        path: {
+          existing: "/docs/cockroach/get-started/cockroach-existing",
+          new: "/docs/cockroach/get-started/cockroach-new",
+        },
+        icon: {
+          light: {
+            path: "/public/svg/cockroach.svg",
+            style: {
+              width: 22,
+              height: 22,
+            },
+          },
+          dark: {
+            path: "/public/svg/cockroach.svg",
+            style: {
+              width: 22,
+              height: 22,
+              fill: "#f0f0f0",
+            },
+          },
+        },
+      },
+    ],
+  },
     {
     title: "ClickHouse",
     items: [
