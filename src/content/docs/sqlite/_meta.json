@@ -25,8 +25,5 @@
   ["stream", "`stream`"],
   ["chunked", "`chunked`"],
   "---",
-  ["types", "Types"],
-  ["pooling", "Pooling"],
-  "---",
-  ["bundle-deploy", "Bundle and deploy"]
+  ["types", "Types"]
 ]

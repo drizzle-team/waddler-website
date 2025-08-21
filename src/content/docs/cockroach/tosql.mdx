@@ -4,8 +4,8 @@ import CodeTabs from '@mdx/CodeTabs.astro';
 
 # Waddler toSQL
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
-- Waddler SQL template - [read here](/docs/sql-template)
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
 </Prerequisites>
 <br/>
 
@@ -21,7 +21,7 @@ console.log(sql`select * from users where id = ${10}`.toSQL());
   params: [],
 }
 {
-  query: "select * from users where id = $1",
+  query: "select * from users where id = $1::int4",
   params: [10],
 }
 ```

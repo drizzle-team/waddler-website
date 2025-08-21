@@ -3,9 +3,9 @@ import Section from '@mdx/Section.astro';
 
 # Standalone SQL template
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
-- Waddler SQL template - [read here](/docs/sql-template)
-- `sql.identifier` - [read here](/docs/sql-identifier)
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+- `sql.identifier` - [read here](/docs/cockroach/sql-identifier)
 </Prerequisites>
 <br/>
 
@@ -15,7 +15,7 @@ or compose a part of a query to reuse it in different places. Let's check both s
 Building a query string and params without a database conenction
 <Section>
 ```ts
-import { sql } from "waddler/pg"
+import { sql } from "waddler/cockroach-core"
 
 // You can then reuse this query in other sql statements
 const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
@@ -31,15 +31,15 @@ Building parts of a query in common functions and use it in a main sql query
 <Section>
 ```ts
 // sql-builder.ts
-import { SQL } from "waddler";
-import { sql } from "waddler/pg";
+import type { SQLQuery } from "waddler";
+import { sql } from "waddler/cockroach-core";
 
 export type Filters = {
     email: string,
     age: number,
 }
 
-export function buildFilters(filters: Filters): SQL {
+export function buildFilters(filters: Filters): SQLQuery {
     return sql`${sql.identifier('email')} = ${filters.email} 
                 and ${sql.identifier('age')} = ${filters.age}`
 }
@@ -47,7 +47,7 @@ export function buildFilters(filters: Filters): SQL {
 ```
 ```ts
 // index.ts
-import { waddler } from 'waddler/...'
+import { waddler } from 'waddler/cockroach'
 import { buildFilters } from './sql-builder.ts'
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -56,7 +56,7 @@ await sql`select * from ${sql.identifier("users")}
     where ${buildFilters({ email: 'test@gmail.com', age 21 })}`
 ```
 ```sql
-select * from "users" where "email" = $1 and "age" = $2
+select * from "users" where "email" = $1 and "age" = $2::int4
 -- params: ['test@gmail.com', 21]
 ```
 </Section>

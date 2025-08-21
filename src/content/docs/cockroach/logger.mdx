@@ -12,7 +12,7 @@ To enable default query logging, just pass `{ logger: true }` to the `waddler` i
 ```typescript copy
 import { waddler } from 'waddler/...'; // driver specific
 
-const db = waddler({ logger: true });
+const db = waddler(process.env.DATABASE_URL!, { logger: true });
 ```
 
 You can also create a custom logger:
@@ -26,12 +26,12 @@ class MyLogger implements Logger {
   }
 }
 
-const db = waddler({ logger: new MyLogger() });
+const db = waddler(process.env.DATABASE_URL!, { logger: new MyLogger() });
 ```
 
 ## metadata
-<CodeTabs items={["node-postgres"]}>
-{/* node-postgres */}
+<CodeTabs items={["cockroach"]}>
+{/* cockroach */}
 ```ts
 // metadata type
 type metadataType = {

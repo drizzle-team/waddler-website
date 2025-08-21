@@ -15,7 +15,7 @@ or compose a part of a query to reuse it in different places. Let's check both s
 Building a query string and params without a database conenction
 <Section>
 ```ts
-import { sql } from "waddler/sqlite"
+import { sql } from "waddler/sqlite-core"
 
 // You can then reuse this query in other sql statements
 const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
@@ -32,7 +32,7 @@ Building parts of a query in common functions and use it in a main sql query
 ```ts
 // sql-builder.ts
 import { SQL } from "waddler";
-import { sql } from "waddler/sqlite";
+import { sql } from "waddler/sqlite-core";
 
 export type Filters = {
     email: string,

@@ -6,10 +6,10 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # SQL default
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/get-started/postgresql-new)
-- Waddler SQL template - [read here](/docs/sql-template)
-- `sql.identifier` - [read here](/docs/sql-identifier)
-- `sql.values` - [read here](/docs/sql-values)
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+- `sql.identifier` - [read here](/docs/cockroach/sql-identifier)
+- `sql.values` - [read here](/docs/cockroach/sql-values)
 </Prerequisites>
 <br/>
 
@@ -24,7 +24,7 @@ insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', def
 ```
 </Section>
 
-Complete example with [`sql.identifier`](/docs/sql-identifier) and `sql.default`:
+Complete example with [`sql.identifier`](/docs/cockroach/sql-identifier) and `sql.default`:
 <Section>
 ```ts
 const table = sql.identifier("users")
