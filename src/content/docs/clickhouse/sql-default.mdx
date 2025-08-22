@@ -6,7 +6,7 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # SQL default
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/clickhouse/get-started/mysql-new)
+- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
 - Waddler SQL template - [read here](/docs/clickhouse/sql-template)
 - `sql.identifier` - [read here](/docs/clickhouse/sql-identifier)
 - `sql.values` - [read here](/docs/clickhouse/sql-values)
@@ -34,7 +34,7 @@ const values = sql.values([
   [sql.default, "Alex", 23],
 ]);
 
-await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
+await sql`insert into ${table} (${columns}) values ${values};`;
 ```
 ```sql
 insert into \`users\` (\`id\`, \`name\`, \`age\`) values (default, 'Oleksii', 20), (default, 'Alex', 23);

@@ -6,7 +6,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # Waddler SQL values
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-neo-new)
+- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
 - Waddler SQL template - [read here](/docs/duckdb/sql-template)
 - `sql.identifier` - [read here](/docs/duckdb/sql-identifier)
 </Prerequisites>
@@ -61,6 +61,6 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
 ```
 ```sql
-insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23) returning "id", "name", "age";
 ```
 </Section>

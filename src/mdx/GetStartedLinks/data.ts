@@ -26,8 +26,8 @@ export const getStartedItems: GetStartedItems = [
       {
         name: "Duckdb-neo",
         path: {
-          existing: "/docs/duckdb/get-started/duckdb-neo-existing",
-          new: "/docs/duckdb/get-started/duckdb-neo-new",
+          existing: "/docs/duckdb/get-started/duckdb-existing",
+          new: "/docs/duckdb/get-started/duckdb-new",
         },
         icon: {
           light: {
@@ -393,6 +393,36 @@ export const getStartedItems: GetStartedItems = [
             style: {
               width: 20,
               fill: "#F0F0F0",
+            },
+          },
+        },
+      },
+    ],
+  },
+   {
+    title: "MsSQL",
+    items: [
+      {
+        name: "MsSQL",
+        path: {
+          existing: "/docs/mssql/get-started/mssql-existing",
+          new: "/docs/mssql/get-started/mssql-new",
+        },
+        icon: {
+          light: {
+            path: "/public/svg/mssql.svg",
+            style: {
+              style: "border-radius: 5px",
+              width: 34,
+              height: 34,
+            },
+          },
+          dark: {
+            path: "/public/svg/mssql.svg",
+            style: {
+              style: "border-radius: 5px",
+              width: 34,
+              height: 34,
             },
           },
         },

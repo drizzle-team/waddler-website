@@ -5,12 +5,12 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # SQL template
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
 </Prerequisites>
 
 SQL template is the core of Waddler.  
 ```ts
-import { waddler } from "waddler/clickhouse";
+import { waddler } from "waddler/mysql2";
 
 const sql = waddler(process.env.DATABASE_URL!);
 
@@ -23,8 +23,8 @@ await sql`select * from users where id = ${10}`;
 // ^ gets parametrised, protects from SQL injections
 ```
 ```sql
-select * from users where id = {param1:String};
--- 10 will be provided in params { "param1": 10 }
+select * from users where id = ?;
+-- 10 will be provided in params [10]
 ```
 
 SQL template is packed with convenient goodies:

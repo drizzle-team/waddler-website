@@ -141,6 +141,27 @@ export const dbSwitcherItems: DbSwitcherItem[] = [
     },
   },
   {
+    id: "mssql",
+    name: "MsSQL",
+    path: "/docs/mssql/overview",
+    icon: {
+      light: {
+        path: "/public/svg/mssql.svg",
+        style: {
+          width: 18,
+          fill: "#00546B",
+        },
+      },
+      dark: {
+        path: "/public/svg/mssql.svg",
+        style: {
+          width: 18,
+          fill: "#F0F0F0",
+        },
+      },
+    },
+  },
+  {
     id: "sqlite",
     name: "SQLite",
     path: "/docs/sqlite/overview",

@@ -6,10 +6,10 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 # Waddler types
 
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
-- Waddler SQL template - [read here](/docs/duckdb/sql-template)
-- `sql.identifier` - [read here](/docs/duckdb/sql-identifier)
-- `sql.values` - [read here](/docs/duckdb/sql-values)
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
+- `sql.identifier` - [read here](/docs/mssql/sql-identifier)
+- `sql.values` - [read here](/docs/mssql/sql-values)
 </Prerequisites>
 
 <br/>
@@ -17,11 +17,11 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 Waddler `sql` template lets you define result return types:
 
 ```ts
-const result = await sql<{ id: number, name: string }>`select * from "users"`;
+const result = await sql<{ id: number, name: string }>`select * from \`users\``;
 
 // or
 type User = { id: number, name: string };
-const result: User[] = await sql<User>`select * from "users"`;
+const result: User[] = await sql<User>`select * from \`users\``;
 
 result[0].id; // ✓ works
 result[0].name; // ✓ works

@@ -5,8 +5,8 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # Waddler toSQL
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
-- Waddler SQL template - [read here](/docs/duckdb/sql-template)
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
 </Prerequisites>
 <br/>
 
@@ -22,7 +22,7 @@ console.log(sql`select * from users where id = ${10}`.toSQL());
   params: [],
 }
 {
-  query: "select * from users where id = $1",
-  params: [ 10 ],
+  query: "select * from users where id = ?",
+  params: [10],
 }
 ```

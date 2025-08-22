@@ -6,10 +6,10 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # Waddler SQL append
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
-- Waddler SQL template - [read here](/docs/clickhouse/sql-template)
-- `sql.identifier` - [read here](/docs/clickhouse/sql-identifier)
-- `sql.raw` - [read here](/docs/clickhouse/sql-raw)
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
+- `sql.identifier` - [read here](/docs/mssql/sql-identifier)
+- `sql.raw` - [read here](/docs/mssql/sql-raw)
 </Prerequisites>
 <br/>
 
@@ -55,11 +55,8 @@ await listItems({ limit: 50, filter: { key: "name", operator: "=", value: "Item 
 await listItems({ limit: 50, offset: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
 ```
 ```sql
-select * from items limit {param1:String}; 
--- {param1:50} params
-select * from items where `name` = {param1:String} limit {param2:String}; 
--- {param1:"Item 1", param2:50} params
-select * from items where `name` = {param1:String} limit {param2:String} offset {param3:String}; 
--- {param1:"Item 1", param2:50, param3:50} params
+select * from items limit $1; -- [50] params
+select * from items where `name` = ? limit ?; -- ["Item 1", 50] params
+select * from items where `name` = ? limit ? offset ?; -- ["Item 1", 50, 50] params
 ```
 </Section>

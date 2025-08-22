@@ -1,0 +1,20 @@
+import Npm from '@mdx/Npm.astro';
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from "@mdx/CodeTabs.astro";
+import WhatsNextPostgres from "@mdx/WhatsNextPostgres.astro";
+import ConnectMsSQL from '@mdx/get-started/mssql/ConnectMsSQL.mdx';
+
+# Waddler \<\> MySQL
+
+To use Waddler with a MsSQL database, you should use the `mssql` driver
+
+Waddler natively supports `mssql` with `waddler/node-mysql` package.
+
+#### Step 1 - Install packages
+<Npm>
+waddler mssql
+</Npm>
+
+#### Step 2 - Initialize the driver and make a query
+<ConnectMsSQL/>

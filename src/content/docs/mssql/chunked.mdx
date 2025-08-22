@@ -1,18 +1,20 @@
 import Callout from '@mdx/Callout.astro';
-import Npm from '@mdx/Npm.astro';
 import Prerequisites from '@mdx/Prerequisites.astro';
 import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # Waddler chunked
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
-- Waddler SQL template - [read here](/docs/clickhouse/sql-template)
-{/* - Waddler Extensions - [read here](/docs/clickhouse/extensions) */}
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
 </Prerequisites>
 <br/>
 
-`.chunked()` lets you stream query result rows in chunks:
+<Callout type='info' title='Note'>
+Chunked features is not implemented in `planetscale` and `tidb` drivers
+</Callout>
 
+`.chunked()` lets you stream query result rows in chunks:
 ```ts
 const result = sql`select * from users`.chunked(2);
 

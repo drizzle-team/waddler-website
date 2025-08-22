@@ -3,9 +3,9 @@ import Section from '@mdx/Section.astro';
 
 # Standalone SQL template
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/sqlite/get-started/sqlite-new)
-- Waddler SQL template - [read here](/docs/sqlite/sql-template)
-- `sql.identifier` - [read here](/docs/sqlite/sql-identifier)
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
+- `sql.identifier` - [read here](/docs/mssql/sql-identifier)
 </Prerequisites>
 <br/>
 
@@ -15,7 +15,7 @@ or compose a part of a query to reuse it in different places. Let's check both s
 Building a query string and params without a database conenction
 <Section>
 ```ts
-import { sql } from "waddler/sqlite-core"
+import { sql } from "waddler/mysql-core"
 
 // You can then reuse this query in other sql statements
 const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
@@ -23,7 +23,7 @@ const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users
 console.log(sqlQuery.toSQL());
 ```
 ```sql
-select "id" from "users";
+select `id` from `users`;
 ```
 </Section>
 
@@ -32,7 +32,8 @@ Building parts of a query in common functions and use it in a main sql query
 ```ts
 // sql-builder.ts
 import { SQL } from "waddler";
-import { sql } from "waddler/sqlite-core";
+import { sql } from "waddler/mysql-core";
+
 
 export type Filters = {
     email: string,
@@ -56,7 +57,7 @@ await sql`select * from ${sql.identifier("users")}
     where ${buildFilters({ email: 'test@gmail.com', age 21 })}`
 ```
 ```sql
-select * from "users" where "email" = ? and "age" = ?
+select * from `users` where `email` = ? and `age` = ?
 -- params: ['test@gmail.com', 21]
 ```
 </Section>
