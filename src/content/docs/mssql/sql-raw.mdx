@@ -22,10 +22,10 @@ Beware `sql.raw` does not get escaped and going to be embedded into SQL statemen
 
 <Section>
 ```ts
-await sql`select * from \`users\` ${sql.raw("where id = 10")}`
+await sql`select * from [users] ${sql.raw("where id = 10")}`
 ```
 ```sql
-select * from `users` where id = 10;
+select * from [users] where id = 10;
 ```
 </Section>
 
@@ -33,7 +33,7 @@ select * from `users` where id = 10;
 ```ts
 const listUsers = async (filter: string | undefined) => {
   const whereClause = filter ? sql.raw(` where ${filter}`) : sql.raw("");
-  return sql`select * from \`users\`${whereClause}`;
+  return sql`select * from [users]${whereClause}`;
 }
 
 await listUsers("`id` = 10");
@@ -41,8 +41,8 @@ await listUsers("`name` = 'Dan'");
 await listUsers();
 ```
 ```sql
-select * from `users` where `id` = 10;
-select * from `users` where `name` = 'Dan';
-select * from `users`;
+select * from [users] where `id` = 10;
+select * from [users] where `name` = 'Dan';
+select * from [users];
 ```
 </Section>

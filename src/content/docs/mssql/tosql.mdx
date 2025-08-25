@@ -12,17 +12,17 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 `.toSQL()` prepares and prints you SQL query as `{ query: string, params: any[] }`:
 ```ts
-console.log(sql`select * from users`.toSQL());
-console.log(sql`select * from users where id = ${10}`.toSQL());
+console.log(sql`select * from users;`.toSQL());
+console.log(sql`select * from users where id = ${10};`.toSQL());
 ```
 
 ```shell
 {
-  query: "select * from users",
+  sql: "select * from users;",
   params: [],
 }
 {
-  query: "select * from users where id = ?",
+  sql: "select * from users where id = @p1;",
   params: [10],
 }
 ```

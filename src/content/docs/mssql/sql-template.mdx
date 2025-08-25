@@ -10,7 +10,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 SQL template is the core of Waddler.  
 ```ts
-import { waddler } from "waddler/mysql2";
+import { waddler } from "waddler/mssql";
 
 const sql = waddler(process.env.DATABASE_URL!);
 
@@ -23,7 +23,7 @@ await sql`select * from users where id = ${10}`;
 // ^ gets parametrised, protects from SQL injections
 ```
 ```sql
-select * from users where id = ?;
+select * from users where id = @p1;
 -- 10 will be provided in params [10]
 ```
 
@@ -35,6 +35,6 @@ SQL template is packed with convenient goodies:
 | `sql.values`     | conveniently pass values to insert statements                         |
 | `sql.raw`        | dynamically build SQL by embedding raw strings                        |
 | `sql.default`    | SQL `DEFAULT` values for queries                                      |
-| `toSQL`          | prepares and converts sql query to `{ query: string, params: any[] }` |
+| `toSQL`          | prepares and converts sql query to `{ sql: string, params: any[] }` |
 | `stream`         | streams result row by row                                             |
 | `chunked`        | streams result in chunks                                              |

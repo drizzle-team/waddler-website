@@ -18,12 +18,15 @@ Building a query string and params without a database conenction
 import { sql } from "waddler/mysql-core"
 
 // You can then reuse this query in other sql statements
-const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
+const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")};`;
 
 console.log(sqlQuery.toSQL());
 ```
-```sql
-select `id` from `users`;
+```ts
+{
+  sql: "select `id` from `users`;",
+  params: [],
+}
 ```
 </Section>
 

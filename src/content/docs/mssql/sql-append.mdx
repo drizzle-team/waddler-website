@@ -39,8 +39,8 @@ type Filter = {
 const listItems = async (params: {limit: number, offset?: number, filter?: Filter }) => {
   const query = sql`select * from items`;
 
-  if(filter) {
-    query.append(sql` where ${sql.identifier(it.key)} ${sql.raw(it.operator)} ${it.value}`)
+  if(params.filter) {
+    query.append(sql` where ${sql.identifier(params.filter.key)} ${sql.raw(params.filter.operator)} ${params.filter.value}`)
   }
 
   query.append(sql` limit ${params.limit}`);
@@ -55,8 +55,8 @@ await listItems({ limit: 50, filter: { key: "name", operator: "=", value: "Item 
 await listItems({ limit: 50, offset: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
 ```
 ```sql
-select * from items limit $1; -- [50] params
-select * from items where `name` = ? limit ?; -- ["Item 1", 50] params
-select * from items where `name` = ? limit ? offset ?; -- ["Item 1", 50, 50] params
+select * from items limit @p1; -- params: [50]
+select * from items where [name] = @p1 limit @p2; -- params: ["Item 1", 50]
+select * from items where [name] = @p1 limit @p2 offset @p3; -- params: ["Item 1", 50, 50]
 ```
 </Section>

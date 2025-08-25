@@ -10,10 +10,6 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 </Prerequisites>
 <br/>
 
-<Callout type='info' title='Note'>
-Chunked features is not implemented in `planetscale` and `tidb` drivers
-</Callout>
-
 `.chunked()` lets you stream query result rows in chunks:
 ```ts
 const result = sql`select * from users`.chunked(2);

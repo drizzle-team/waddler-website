@@ -17,11 +17,11 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 Waddler `sql` template lets you define result return types:
 
 ```ts
-const result = await sql<{ id: number, name: string }>`select * from \`users\``;
+const result = await sql<{ id: number, name: string }>`select * from [users];`;
 
 // or
 type User = { id: number, name: string };
-const result: User[] = await sql<User>`select * from \`users\``;
+const result: User[] = await sql<User>`select * from [users]`;
 
 result[0].id; // ✓ works
 result[0].name; // ✓ works

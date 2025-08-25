@@ -39,8 +39,8 @@ type Filter = {
 const listItems = async (params: {limit: number, offset?: number, filter?: Filter }) => {
   const query = sql`select * from items`;
 
-  if(filter) {
-    query.append(sql` where ${sql.identifier(it.key)} ${sql.raw(it.operator)} ${it.value}`)
+  if(params.filter) {
+    query.append(sql` where ${sql.identifier(params.filter.key)} ${sql.raw(params.filter.operator)} ${params.filter.value}`)
   }
 
   query.append(sql` limit ${params.limit}`);

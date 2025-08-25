@@ -17,11 +17,11 @@ console.log(sql`select * from users where id = ${10}`.toSQL());
 
 ```shell
 {
-  query: "select * from users",
+  sql: "select * from users",
   params: [],
 }
 {
-  query: "select * from users where id = $1::int4",
+  sql: "select * from users where id = $1::int4",
   params: [10],
 }
 ```

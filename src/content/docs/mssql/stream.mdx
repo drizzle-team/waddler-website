@@ -11,15 +11,11 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 </Prerequisites>
 <br/>
 
-<Callout type='info' title='Note'>
-Stream is not implemented in `planetscale` and `tidb` drivers
-</Callout>
-
 `.stream()` lets you stream query result rows one by one:
 <CodeTabs items={["for await", "generator"]}>
 <Section>
 ```ts
-const result = sql`select * from users`.stream();
+const result = sql`select * from users;`.stream();
 
 for await (const row of result) {
   console.log(row);
@@ -38,7 +34,7 @@ for await (const row of result) {
 </Section>
 <Section>
 ```ts
-const generator = sql`select * from users`.stream();
+const generator = sql`select * from users;`.stream();
 
 let result = await generator.next();
 while (!result.done) {
