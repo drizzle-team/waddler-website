@@ -55,8 +55,8 @@ await listItems({ limit: 50, filter: { key: "name", operator: "=", value: "Item 
 await listItems({ limit: 50, offset: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
 ```
 ```sql
-select * from items limit $1; -- [50] params
-select * from items where "name" = $1 limit $2; -- ["Item 1", 50] params
-select * from items where "name" = $1 limit $2 offset $3; -- ["Item 1", 50, 50] params
+select * from items limit $1; -- params: [50]
+select * from items where "name" = $1 limit $2; -- params: ["Item 1", 50] 
+select * from items where "name" = $1 limit $2 offset $3; -- params: ["Item 1", 50, 50] 
 ```
 </Section>

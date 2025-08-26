@@ -34,7 +34,7 @@ Building parts of a query in common functions and use it in a main sql query
 <Section>
 ```ts
 // sql-builder.ts
-import { SQL } from "waddler";
+import { SQLQuery } from "waddler";
 import { sql } from "waddler/duckdb-core";
 
 export type Filters = {
@@ -42,7 +42,7 @@ export type Filters = {
     age: number,
 }
 
-export function buildFilters(filters: Filters): SQL {
+export function buildFilters(filters: Filters): SQLQuery {
     return sql`${sql.identifier('email')} = ${filters.email} 
                 and ${sql.identifier('age')} = ${filters.age}`
 }

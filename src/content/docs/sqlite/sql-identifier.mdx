@@ -15,9 +15,9 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 `sql.identifier` lets you conveniently pass identifiers to SQL query with automatic escaping:
 <Section>
 ```ts
-await sql`select * from ${sql.identifier("users")}`;
-await sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
-await sql`select ${sql.identifier(["id", "name", "email"])} from ${sql.identifier("users")}`;
+await sql`select * from ${sql.identifier("users")};`;
+await sql`select ${sql.identifier("id")} from ${sql.identifier("users")};`;
+await sql`select ${sql.identifier(["id", "name", "email"])} from ${sql.identifier("users")};`;
 ```
 ```sql
 select * from "users";
@@ -31,7 +31,7 @@ You can explicitely provide `table` and `column` to the query:
 <Section>
 ```ts
 const users = sql.identifier({ table: "users" });
-await sql`select * from ${users}`;
+await sql`select * from ${users};`;
 ```
 ```sql
 select * from "users";
@@ -40,14 +40,14 @@ select * from "users";
 <Section>
 ```ts
 const id = sql.identifier({ table: "users", column: "id" });
-await sql`select ${id} from "users"`;
+await sql`select ${id} from "users";`;
 
 const multipleColumns = sql.identifier([
 	{ table: "users", column: "id" }
 	{ table: "users", column: "name" }
 	{ table: "users", column: "email" }
 ]);
-await sql`select ${multipleColumns} from "users"`;
+await sql`select ${multipleColumns} from "users";`;
 ```
 ```sql
 select "users"."id" from "users";
@@ -62,7 +62,7 @@ const columns = sql.identifier([
 	{ ...table, column: "name" }
 	{ ...table, column: "email" }
 ]);
-await sql`select ${columns} from ${table}`;
+await sql`select ${columns} from ${table};`;
 ```
 ```sql
 select "users"."id", "users"."name", "users"."email" from "users";
@@ -75,9 +75,9 @@ SQL identifier has support for `as`:
 ```ts
 const table = sql.identifier({  table: "users", as: "u" })
 const id = sql.identifier({ table: "u", column: "id", as: "userId" });
-await sql`select ${columns} from ${table}`;
+await sql`select ${columns} from ${table};`;
 ```
 ```sql
-select "u"."id" as "userId" from "users" "u";
+select "u"."id" as "userId" from "users" as "u";
 ```
 </Section>

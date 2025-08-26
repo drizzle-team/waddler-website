@@ -17,10 +17,12 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 <Section>
 ```ts
 const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
-await sql`insert into \`users\` (\`name\`, \`created_at\`) values ${values}`;
+await sql`insert into \`users\` (\`name\`, \`created_at\`) values ${values};`;
 ```
 ```sql
-insert into \`users\` (\`name\`, \`created_at\`) values ('Dan', default), ('Alex', default);
+insert into `users` (`name`, `created_at`) 
+values ({param1:String}, default), ({param1:String}, default);
+-- params: { param1: "Dan", param2: "Alex" }
 ```
 </Section>
 
@@ -37,6 +39,8 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values};`;
 ```
 ```sql
-insert into \`users\` (\`id\`, \`name\`, \`age\`) values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into `users` (`id`, `name`, `age`) 
+values (default, {param1:String}, {param2:String}), (default, {param3:String}, {param4:String});
+-- params: { param1: "Oleksii", param2: 20, param3: "Alex", param4: 23 }
 ```
 </Section>

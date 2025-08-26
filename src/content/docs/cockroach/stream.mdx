@@ -34,7 +34,7 @@ const sql = waddler(process.env.DATABASE_URL!, { extensions: [queryStream()] })
 <CodeTabs items={["for await", "generator"]}>
 <Section>
 ```ts
-const result = sql`select * from users`.stream();
+const result = sql`select * from users;`.stream();
 
 for await (const row of result) {
   console.log(row);
@@ -53,7 +53,7 @@ for await (const row of result) {
 </Section>
 <Section>
 ```ts
-const generator = sql`select * from users`.stream();
+const generator = sql`select * from users;`.stream();
 
 let result = await generator.next();
 while (!result.done) {

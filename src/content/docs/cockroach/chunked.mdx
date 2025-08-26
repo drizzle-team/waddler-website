@@ -11,12 +11,6 @@ import CodeTabs from '@mdx/CodeTabs.astro';
 </Prerequisites>
 <br/>
 
-<Callout type='info' title='Note'>
-Chunks feature is not implemented in `postgres.js`, `xata-http`, `pglite`, `neon-http`, `bun-sql`
-
-All other drivers have support for it
-</Callout>
-
 `.chunked()` lets you stream query result rows in chunks:
 
 <Callout type='warning'>
@@ -49,7 +43,7 @@ for await (const chunk of result) {
 		name: "Alex",
 	},
 	{
-	  id: 2,
+	  	id: 2,
 		name: "Oleksii",
 	}
 ]

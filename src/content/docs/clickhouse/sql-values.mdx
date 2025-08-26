@@ -22,8 +22,9 @@ const values = sql.values([["Dan", "dan@acme.com", 25]]);
 await sql`insert into \`users\` (\`name\`, \`email\`, \`age\`) values ${values}`;
 ```
 ```sql
-insert into `users` (`name`) values ('Dan');
-insert into `users` (`name`) values ('Dan', 'dan@acme.com', 25);
+insert into `users` (`name`) values ({param1:String}); -- params: {param1: "Dan"}
+insert into `users` (`name`) 
+values ({param1:String}, {param2:String}, {param3:String}); -- params: {param1: "Dan", param2: "dan@acme.com", param3: 25}
 ```
 </Section>
 <Section>
@@ -35,7 +36,9 @@ const values = sql.values([
 await sql`insert into \`users\` (\`name\`, \`email\`, \`age\`) values ${values}`;
 ```
 ```sql
-insert into `users` (`name`, `email`, `age`) values ('Dan', 'dan@acme.com', 25), ('Oleksii', 'oleksii@acme.com', 22);
+insert into `users` (`name`, `email`, `age`) 
+values ({param1:String}, {param2:String}, {param3:String}), ({param4:String}, {param5:String}, {param6:String});
+-- params: { param1: "Dan", param2: "dan@acme.com", param3: 25, param4: "Oleksii", param5: "oleksii@acme.com", param6: 22, }
 ```
 </Section>
 
@@ -45,7 +48,9 @@ const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
 await sql`insert into \`users\` (\`name\`, \`created_at\`) values ${values}`;
 ```
 ```sql
-insert into `users` (`name`, `created_at`) values ('Dan', default), ('Alex', default);
+insert into `users` (`name`, `created_at`) 
+values ({param1:String}, default), ({param2:String}, default);
+-- params: { param1: "Dan", param2: "Alex" }
 ```
 
 Complete example with [`sql.identifier`](/docs/clickhouse/sql-identifier) and [`sql.default`](/docs/clickhouse/sql-default):
@@ -61,6 +66,8 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values};
 ```
 ```sql
-insert into `users` (`id`, `name`, `age`) values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into `users` (`id`, `name`, `age`) 
+values (default, {param1:String}, {param2:String}), (default, {param3:String}, {param4:String});
+-- params: { param1: "Oleksii", param2: 20, param3: "Alex", param4: 23 }
 ```
 </Section>

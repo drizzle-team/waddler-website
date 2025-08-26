@@ -33,7 +33,7 @@ select * from "users" where id = 10;
 ```ts
 const listUsers = async (filter: string | undefined) => {
   const whereClause = filter ? sql.raw(` where ${filter}`) : sql.raw("");
-  return sql`select * from "users"${whereClause}`;
+  return sql`select * from "users"${whereClause};`;
 }
 
 await listUsers(`"id" = 10`);

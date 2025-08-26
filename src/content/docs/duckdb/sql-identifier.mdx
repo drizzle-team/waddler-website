@@ -78,6 +78,6 @@ const id = sql.identifier({ table: "u", column: "id", as: "userId" });
 await sql`select ${columns} from ${table}`;
 ```
 ```sql
-select "u"."id" as "userId" from "public"."users" "u";
+select "u"."id" as "userId" from "public"."users" as "u";
 ```
 </Section>
