@@ -1,0 +1,51 @@
+import LinksList from "@mdx/LinksList.astro"
+import Flex from "@mdx/Flex.astro"
+
+#### Next steps
+Feel free to check out per-driver documentations  
+
+<rem/>
+<Flex>
+  <LinksList 
+    title='PostgreSQL drivers'
+    links={[
+        ["PostgreSQL", "/docs/connect-postgresql"], 
+        ["Neon", "/docs/connect-neon"], 
+        ["Vercel Postgres", "/docs/connect-vercel-postgres"],
+        ["Supabase", "/docs/connect-supabase"],
+        ["Xata", "/docs/connect-xata"],
+        ["PGLite", "/docs/connect-pglite"],
+      ]}
+  />
+  <LinksList 
+    title='Gel drivers'
+    links={[
+        ["Gel", "/docs/connect-gel"],
+      ]}
+  />
+  <LinksList 
+    title='MySQL drivers'
+    links={[
+        ["MySQL", "/docs/connect-mysql"], 
+        ["PlanetsScale", "/docs/connect-planetscale"], 
+        ["TiDB", "/docs/connect-tidb"],
+      ]}
+  />
+  <LinksList 
+  title='SQLite drivers'
+  links={[
+      ["SQLite", "/docs/connect-sqlite"], 
+      ["Turso", "/docs/connect-turso"], 
+      ["Cloudflare D1", "/docs/connect-cloudflare-d1"],
+      ["Bun SQLite", "/docs/connect-bun-sqlite"],
+    ]}
+  />
+  <LinksList 
+  title='Native SQLite'
+  links={[
+      ["Expo SQLite", "/docs/get-started/expo-new"], 
+      ["OP SQLite", "/docs/connect-op-sqlite"], 
+    ]}
+  />
+</Flex>
+{/* TODO: @AndriiSherman ["AWS Data API", "/docs/get-started/aws-data-api"],  */}

@@ -8,8 +8,7 @@ import Prerequisites from "@mdx/Prerequisites.astro";
 import CodeTabs from '@mdx/CodeTabs.astro';
 import CodeTab from '@mdx/CodeTab.astro';
 import Section from "@mdx/Section.astro";
-import LinksList from "@mdx/LinksList.astro"
-import Flex from "@mdx/Flex.astro"
+import ConnectOverviewNextSteps from '@mdx/ConnectOverviewNextSteps.mdx'
 
 # Database connection with Waddler
 Waddler runs SQL queries on your database via **database drivers**.
@@ -118,57 +117,5 @@ https://alex:AbC123dEf@ep-cool-darkness-123456.com:8443/dbname
                │- password                           │ - port
 
 ```
-#### Next steps
-Feel free to check out per-driver documentations  
 
-<rem/>
-<Flex>
-  <LinksList 
-    title='PostgreSQL drivers'
-    links={[
-        ["PostgreSQL", "/docs//connect-postgresql"], 
-        ["Neon", "/docs/connect-neon"], 
-        ["Vercel Postgres", "/docs/connect-vercel-postgres"],
-        ["Supabase", "/docs/connect-supabase"],
-        ["Xata", "/docs/connect-xata"],
-        ["PGLite", "/docs/connect-pglite"],
-      ]}
-  />
-  <LinksList 
-    title='Gel drivers'
-    links={[
-        ["Gel", "/docs/gel/connect-gel"],
-      ]}
-  />
-  <LinksList 
-    title='MySQL drivers'
-    links={[
-        ["MySQL", "/docs/mysql/connect-mysql"], 
-        ["PlanetsScale", "/docs/mysql/connect-planetscale"], 
-        ["TiDB", "/docs/mysql/connect-tidb"],
-      ]}
-  />
-  <LinksList 
-  title='SQLite drivers'
-  links={[
-      ["SQLite", "/docs/sqlite/connect-sqlite"], 
-      ["Turso", "/docs/sqlite/connect-turso"], 
-      ["Cloudflare D1", "/docs/sqlite/connect-cloudflare-d1"],
-      ["Bun SQLite", "/docs/sqlite/connect-bun-sqlite"],
-    ]}
-  />
-  <LinksList 
-  title='Native SQLite'
-  links={[
-      ["Expo SQLite", "/docs/sqlite/get-started/expo-new"], 
-      ["OP SQLite", "/docs/sqlite/connect-op-sqlite"], 
-    ]}
-  />
-  <LinksList 
-  title='ClickHouse'
-  links={[
-      ["ClickHouse", "/docs/clickhouse/connect-clickhouse"], 
-    ]}
-  />
-</Flex>
-{/* TODO: @AndriiSherman ["AWS Data API", "/docs/get-started/aws-data-api"],  */}
+<ConnectOverviewNextSteps/>
