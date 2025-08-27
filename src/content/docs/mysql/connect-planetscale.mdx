@@ -26,11 +26,12 @@ You can also access PlanetScale through TCP with `mysql2` driver — **[see here
 
 #### Step 1 - Install packages
 <Npm>
-waddler @planetscale/database
+waddler @planetscale/database dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 ```typescript copy"
+import 'dotenv/config';
 import { waddler } from "waddler/planetscale-serverless";
 
 const sql = waddler({ connection: {
@@ -45,6 +46,7 @@ const result = await sql`select 1;`;
 If you need to provide your existing driver
 
 ```typescript copy"
+import 'dotenv/config';
 import { waddler } from "waddler/planetscale-serverless";
 import { Client } from "@planetscale/database";
 

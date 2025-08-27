@@ -16,7 +16,7 @@ Waddler has native support for CockroachDB connections with the `node-postgres` 
 
 #### Step 1 - Install packages
 <Npm>
-waddler pg
+waddler pg dotenv
 -D @types/pg
 </Npm>
 
@@ -27,6 +27,7 @@ import 'dotenv/config';
 import { waddler } from 'waddler/cockroach';
 
 const sql = waddler(process.env.DATABASE_URL!);
+
 const result = await sql`select 1;`;
 ```
 ```typescript copy
@@ -40,6 +41,7 @@ const sql = waddler({
     ssl: false
   }
 });
+
 const result = await sql`select 1;`;
 ```
 </CodeTabs>
@@ -49,6 +51,7 @@ If you need to provide your existing driver:
 
 <CodeTabs items={['with existing driver', 'with pg-query-stream extension']}>
 ```typescript copy
+import 'dotenv/config';
 // Make sure to install the 'pg' package 
 import { waddler } from "waddler/cockroach";
 import pg from 'pg';

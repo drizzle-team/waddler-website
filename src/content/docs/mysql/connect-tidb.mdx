@@ -26,11 +26,12 @@ TiDB Serverless provides an [HTTP driver](https://docs.pingcap.com/tidbcloud/ser
 
 #### Step 1 - Install packages
 <Npm>
-waddler @tidbcloud/serverless
+waddler @tidbcloud/serverless dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 ```typescript copy filename="index.ts"
+import 'dotenv/config';
 import { waddler } from 'waddler/tidb-serverless';
 
 const sql = waddler({ connection: { url: process.env.TIDB_URL }});
@@ -40,6 +41,7 @@ const result = await sql`select 1;`;
 
 If you need to provide your existing driver:
 ```typescript copy
+import 'dotenv/config';
 import { connect } from '@tidbcloud/serverless';
 import { waddler } from 'waddler/tidb-serverless';
 

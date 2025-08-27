@@ -16,19 +16,24 @@ Waddler has native support for DuckDB connections with the `duckdb-neo` driver.
 
 #### Step 1 - Install packages
 <Npm>
-waddler @duckdb/node-api
+waddler @duckdb/node-api dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={["duckdb-neo", "duckdb-neo in memory"]}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/duckdb-neo';
 
 sql = waddler({ url: process.env.DATABASE_URL!, max: 10, accessMode: 'read_write' });
+
+const result = await sql`select 1;`;
 ```
 ```typescript copy
 import { waddler } from 'waddler/duckdb-neo';
 
 sql = waddler({ url: ':memory:', max: 10, accessMode: 'read_write' });
+
+const result = await sql`select 1;`;
 ```
 </CodeTabs>

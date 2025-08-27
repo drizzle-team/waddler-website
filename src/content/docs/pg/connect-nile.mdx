@@ -21,13 +21,14 @@ You can use Nile with any of Drizzle's Postgres drivers, we'll be showing the us
 #### Step 1 - Install packages
 
 <Npm>
-waddler pg
+waddler pg dotenv
 -D drizzle-kit
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 
 ```typescript copy filename="index.ts"
+import 'dotenv/config';
 // Make sure to install the 'pg' package
 import { waddler } from 'waddler/node-postgres'
 
@@ -39,6 +40,7 @@ const result = await sql`select 1;`;
 If you need to provide your existing driver:
 
 ```typescript copy filename="index.ts"
+import 'dotenv/config';
 // Make sure to install the 'pg' package
 import { waddler } from "waddler/node-postgres";
 import { Pool } from "pg";

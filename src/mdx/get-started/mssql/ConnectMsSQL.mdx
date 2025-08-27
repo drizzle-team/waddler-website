@@ -1,4 +1,3 @@
-import Callout from '@mdx/Callout.astro';
 import CodeTabs from "@mdx/CodeTabs.astro";
 import Section from "@mdx/Section.astro";
 
@@ -9,7 +8,6 @@ import 'dotenv/config';
 import { waddler } from "waddler/node-mssql";
 
 const sql = waddler(process.env.DATABASE_URL);
-const result = await sql`select 1;`;
 ```
 ```ts copy
 // process.env.DATABASE_URL should be provided in the following format:
@@ -24,7 +22,6 @@ import { waddler } from "waddler/node-mssql";
 
 // connection can accept either a database url or an mssql config
 const sql = waddler({ connection: process.env.DATABASE_URL });
-const result = await sql`select 1;`;
 ```
 ```ts copy
 // database url should be in the following format:
@@ -61,7 +58,6 @@ async function main() {
 	await client.connect();
 
 	const sql = waddler({ client });
-	const result = await sql`select 1;`;
 }
 
 main();
@@ -99,7 +95,6 @@ import mssql from 'mssql';
 const client = new AutoPool(process.env.DATABASE_URL);
 
 const sql = waddler({ client: client });
-const result = await sql`select 1;`;
 ```
 ```ts
 // database url should be in the following format:

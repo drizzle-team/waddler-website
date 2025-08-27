@@ -29,12 +29,13 @@ To use Neon from a serverful environment, you can use the PostgresJS driver, as 
 
 #### Step 1 - Install packages
 <Npm>
-waddler @neondatabase/serverless
+waddler @neondatabase/serverless dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={["Neon HTTP", "Neon Websockets", "node-postgres", "postgres.js"]}>
 ```typescript
+import 'dotenv/config';
 import { waddler } from 'waddler/neon-http';
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -43,6 +44,7 @@ const result = await sql`select 1;`;
 ```
 <Section> 
 ```typescript 
+import 'dotenv/config';
 import { waddler } from 'waddler/neon-serverless';
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -50,6 +52,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript
+import 'dotenv/config';
 // For Node.js - make sure to install the 'ws' and 'bufferutil' packages
 import { waddler } from 'waddler/neon-serverless';
 import ws from 'ws';
@@ -67,6 +70,7 @@ Add the `ws` and `bufferutil` packages to your project's dependencies, and set `
 </Callout>
 </Section> 
 ```typescript 
+import 'dotenv/config';
 // Make sure to install the 'pg' package 
 import { waddler } from 'waddler/node-postgres';
 
@@ -75,6 +79,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript
+import 'dotenv/config';
 // Make sure to install the 'postgres' package
 import { waddler } from 'waddler/postgres-js';
 
@@ -88,6 +93,7 @@ If you need to provide your existing drivers:
 
 <CodeTabs items={["Neon HTTP", "Neon Websockets", "node-postgres", "postgres.js"]}>
 ```typescript
+import 'dotenv/config';
 import { neon } from '@neondatabase/serverless';
 import { waddler } from 'waddler/neon-http';
 
@@ -98,6 +104,7 @@ const result = await sql`select 1;`;
 ```
 <Section> 
 ```typescript 
+import 'dotenv/config';
 import { Pool } from '@neondatabase/serverless';
 import { waddler } from 'waddler/neon-serverless';
 
@@ -107,6 +114,7 @@ const sql = waddler({ client: pool })
 const result = await sql`select 1;`;
 ```
 ```typescript
+import 'dotenv/config';
 // For Node.js - make sure to install the 'ws' and 'bufferutil' packages
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { waddler } from 'waddler/neon-serverless';
@@ -121,10 +129,11 @@ const result = await sql`select 1;`;
 ```
 <Callout type="warning" emoji="⚙️"> 
 Additional configuration is required to use WebSockets in environments where the `WebSocket` global is not defined, such as Node.js. 
-Add the `ws` and `bufferutil` packages to your project's dependencies, and set `ws` in the Waddler config. 
+Add the `ws` and `bufferutil` packages to your project's dependencies, and set `ws` in the **neon** config. 
 </Callout>
 </Section> 
 ```typescript 
+import 'dotenv/config';
 // Make sure to install the 'pg' package 
 import { waddler } from "waddler/node-postgres";
 import { Pool } from "pg";
@@ -137,6 +146,7 @@ const sql = waddler({ client: pool });
 const result = await sql`select 1;`;
 ```
 ```typescript
+import 'dotenv/config';
 // Make sure to install the 'postgres' package
 import { waddler } from 'waddler/postgres-js';
 import postgres from 'postgres';
