@@ -6,7 +6,7 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # SQL default
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-neo-new)
+- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
 - Waddler SQL template - [read here](/docs/duckdb/sql-template)
 - `sql.identifier` - [read here](/docs/duckdb/sql-identifier)
 - `sql.values` - [read here](/docs/duckdb/sql-values)
@@ -24,7 +24,7 @@ insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', def
 ```
 </Section>
 
-Complete example with [`sql.identifier`](/docs/sql-identifier) and `sql.default`:
+Complete example with [`sql.identifier`](/docs/duckdb/sql-identifier) and `sql.default`:
 <Section>
 ```ts
 const table = sql.identifier("users")
@@ -37,6 +37,6 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
 ```
 ```sql
-insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23) returning "id", "name", "age";
 ```
 </Section>

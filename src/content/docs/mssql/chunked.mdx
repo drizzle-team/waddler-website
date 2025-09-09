@@ -1,0 +1,33 @@
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+
+# Waddler chunked
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
+</Prerequisites>
+<br/>
+
+`.chunked()` lets you stream query result rows in chunks:
+```ts
+const result = sql`select * from users`.chunked(2);
+
+for await (const chunk of result) {
+  console.log(chunk);
+}
+```
+```shell
+[
+	{
+  	id: 1,
+		name: "Alex",
+	},
+	{
+	  	id: 2,
+		name: "Oleksii",
+	}
+]
+…
+```

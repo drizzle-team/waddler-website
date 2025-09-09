@@ -1,0 +1,76 @@
+import Callout from '@mdx/Callout.astro';
+import Npm from '@mdx/Npm.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import Section from '@mdx/Section.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+
+# Waddler stream
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+- Waddler Extensions - [read here](/docs/cockroach/query-stream)
+</Prerequisites>
+<br/>
+
+`.stream()` lets you stream query result rows one by one:
+
+<Callout type='warning'>
+To enable streaming in `node-postgres`, 
+you need to install [`pg-query-stream`](https://www.npmjs.com/package/pg-query-stream) and the `query-stream` extension that provides streaming support.
+You can read more about extensions [here](/docs/cockroach/query-stream)
+
+<Npm>
+pg-query-stream
+</Npm>
+
+```ts
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+
+const sql = waddler(process.env.DATABASE_URL!, { extensions: [queryStream()] })
+```
+</Callout>
+
+<CodeTabs items={["for await", "generator"]}>
+<Section>
+```ts
+const result = sql`select * from users;`.stream();
+
+for await (const row of result) {
+  console.log(row);
+}
+```
+```shell
+{
+  id: 1,
+	name: "Alex",
+}
+{
+  id: 2,
+	name: "Oleksii",
+}
+```
+</Section>
+<Section>
+```ts
+const generator = sql`select * from users;`.stream();
+
+let result = await generator.next();
+while (!result.done) {
+  console.log(result.value);
+
+  result = await generator.next();
+}
+```
+```shell
+{
+  id: 1,
+	name: "Alex",
+}
+{
+  id: 2,
+	name: "Oleksii",
+}
+```
+</Section>
+</CodeTabs>

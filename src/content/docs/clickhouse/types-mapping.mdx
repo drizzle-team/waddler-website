@@ -43,7 +43,7 @@ await sql`select * from students where height = ${sql.param(185.5, 'Float32')};`
 
 For queries like this:
 ```ts
-await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`.command()
 
 // query: "insert into users (id, name, age) values ({param1:String},{param2:String},{param3:String});"
 // params: { "param1": 1, "param2": "alex", "param3": 23 }
@@ -66,12 +66,12 @@ If you omit it - or if it has fewer entries than columns - any missing types wil
 
 Examples:
 ```ts {6}
-await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]])};`.command()
 
 // query: "insert into users (id, name, age) values ({param1:String},{param2:String},{param3:String});"
 // params: { "param1": 1, "param2": "alex", "param3": 23 }
 
-await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['Int32', 'String', 'Int32'])};`
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['Int32', 'String', 'Int32'])};`.command()
 
 // query: "insert into users (id, name, age) values ({param1:Int32},{param2:String},{param3:Int32});"
 // params: { "param1": 1, "param2": "alex", "param3": 23 }
@@ -79,7 +79,7 @@ await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]
 
 ```ts
 // omitting types
-await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['Int32', 'String'])};`
+await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]], ['Int32', 'String'])};`.command()
 
 // query: "insert into users (id, name, age) values ({param1:Int32},{param2:String},{param3:String});"
 // params: { "param1": 1, "param2": "alex", "param3": 23 }
@@ -90,7 +90,7 @@ await sql`insert into users (id, name, age) values ${sql.values([[1, 'alex', 23]
 const types: string[] = [];
 types[1] = 'FixedString(10)';
 
-await sql`insert into users (id, slug, age) values ${sql.values([[1, 'alex', 23]], types)};`
+await sql`insert into users (id, slug, age) values ${sql.values([[1, 'alex', 23]], types)};`.command()
 
 // query: "insert into users (id, slug, age) values ({param1:String},{param2:FixedString(10)},{param3:String});"
 // params: { "param1": 1, "param2": "alex", "param3": 23 }

@@ -7,7 +7,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # Waddler SQL identifier
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-neo-new)
+- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
 - Waddler SQL template - [read here](/docs/duckdb/sql-template)
 </Prerequisites>
 <br/>
@@ -78,6 +78,6 @@ const id = sql.identifier({ table: "u", column: "id", as: "userId" });
 await sql`select ${columns} from ${table}`;
 ```
 ```sql
-select "u"."id" as "userId" from "public"."users" "u";
+select "u"."id" as "userId" from "public"."users" as "u";
 ```
 </Section>

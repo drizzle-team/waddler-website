@@ -9,7 +9,7 @@ import CodeTabs from '@mdx/CodeTabs.astro';
 </Prerequisites>
 <br/>
 
-`.toSQL()` prepares and prints you SQL query as `{ query: string, params: any[] }`:
+`.toSQL()` prepares and prints you SQL query as `{ sql: string, params: any[] }`:
 ```ts
 console.log(sql`select * from users`.toSQL());
 console.log(sql`select * from users where id = ${10}`.toSQL());
@@ -17,11 +17,11 @@ console.log(sql`select * from users where id = ${10}`.toSQL());
 
 ```shell
 {
-  query: "select * from users",
+  sql: "select * from users",
   params: [],
 }
 {
-  query: "select * from users where id = $1",
+  sql: "select * from users where id = $1",
   params: [10],
 }
 ```

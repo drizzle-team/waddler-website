@@ -1,0 +1,78 @@
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+
+# Logging
+
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+</Prerequisites>
+
+To enable default query logging, just pass `{ logger: true }` to the `waddler` initialization function:
+```typescript copy
+import { waddler } from 'waddler/...'; // driver specific
+
+const db = waddler(process.env.DATABASE_URL!, { logger: true });
+```
+
+You can also create a custom logger:
+```typescript copy
+import { Logger } from 'waddler';
+import { waddler } from 'waddler/...'; // driver specific
+
+class MyLogger implements Logger {
+  logQuery(query: string, params: unknown[], metadata?: any): void {
+    console.log({ query, params, metadata });
+  }
+}
+
+const db = waddler(process.env.DATABASE_URL!, { logger: new MyLogger() });
+```
+
+## metadata
+<CodeTabs items={["cockroach"]}>
+{/* cockroach */}
+```ts
+// metadata type
+type metadataType = {
+  command: string;
+  rowCount: number | null;
+  oid: number;
+  fields: {
+    name: string;
+    tableID: number;
+    columnID: number;
+    dataTypeID: number;
+    dataTypeSize: number;
+    dataTypeModifier: number;
+    format: string;
+  }[];
+}
+
+// also can include fields such as:
+// '_parsers', '_types', 'RowCtor', 'rowAsArray', '_prebuiltEmptyResultObject';
+
+// metadata example
+{
+  command: 'SELECT',
+  rowCount: 1,
+  oid: null,
+  fields: [
+    Field {
+      name: '?column?',
+      tableID: 0,
+      columnID: 0,
+      dataTypeID: 25,
+      dataTypeSize: -1,
+      dataTypeModifier: -1,
+      format: 'text'
+    }
+  ],
+  _parsers: [ [Function: noParse] ],
+  _types: { getTypeParser: [Function: getTypeParser] },
+  RowCtor: null,
+  rowAsArray: false,
+  _prebuiltEmptyResultObject: { '?column?': null }
+}
+```
+</CodeTabs>

@@ -6,7 +6,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # Waddler SQL append
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/clickhouse/get-started/mysql-new)
+- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
 - Waddler SQL template - [read here](/docs/clickhouse/sql-template)
 - `sql.identifier` - [read here](/docs/clickhouse/sql-identifier)
 - `sql.raw` - [read here](/docs/clickhouse/sql-raw)
@@ -39,8 +39,8 @@ type Filter = {
 const listItems = async (params: {limit: number, offset?: number, filter?: Filter }) => {
   const query = sql`select * from items`;
 
-  if(filter) {
-    query.append(sql` where ${sql.identifier(it.key)} ${sql.raw(it.operator)} ${it.value}`)
+  if(params.filter) {
+    query.append(sql` where ${sql.identifier(params.filter.key)} ${sql.raw(params.filter.operator)} ${params.filter.value}`)
   }
 
   query.append(sql` limit ${params.limit}`);
@@ -55,11 +55,11 @@ await listItems({ limit: 50, filter: { key: "name", operator: "=", value: "Item 
 await listItems({ limit: 50, offset: 50, filter: { key: "name", operator: "=", value: "Item 1"}});
 ```
 ```sql
-select * from items limit {param1:String}; 
--- {param1:50} params
-select * from items where `name` = {param1:String} limit {param2:String}; 
--- {param1:"Item 1", param2:50} params
-select * from items where `name` = {param1:String} limit {param2:String} offset {param3:String}; 
--- {param1:"Item 1", param2:50, param3:50} params
+select * from items limit {param1:Int32}; 
+-- params: {param1:50}
+select * from items where `name` = {param1:String} limit {param2:Int32}; 
+-- params: {param1:"Item 1", param2:50}
+select * from items where `name` = {param1:String} limit {param2:Int32} offset {param3:Int32}; 
+-- params: {param1:"Item 1", param2:50, param3:50}
 ```
 </Section>

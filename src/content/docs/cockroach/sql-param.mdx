@@ -1,0 +1,40 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+
+# SQL param
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+- `sql.identifier` - [read here](/docs/cockroach/sql-identifier)
+</Prerequisites>
+<br/>
+
+`sql.param` lets you define a parameter with a custom type accepted by the CockroachDB client
+
+By default, passing `10` will generate this SQL and parameters array
+<Section>
+```ts
+await sql`select * from ${sql.identifier("users")} where ${sql.identifier("id")} = ${10};`
+```
+```sql
+select * from "users" where "id" = $1::int4;
+-- params: [10]
+```
+</Section>
+
+You can use `sql.param` to override this behavior
+
+<Section>
+```ts
+await sql`select * from ${sql.identifier("users")} 
+          where ${sql.identifier("id")} = ${sql.param(10, 'int8')};`
+```
+```sql
+select * from "users" where "id" = $1::int8;
+-- params: [10]
+```
+</Section>

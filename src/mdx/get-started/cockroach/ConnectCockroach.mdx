@@ -1,0 +1,48 @@
+import CodeTabs from "@mdx/CodeTabs.astro";
+
+
+<CodeTabs items={["cockroach", "cockroach with config", "your node-postgres driver", "pg-query-stream extension"]}>
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+
+const sql = waddler(process.env.DATABASE_URL!);
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+
+// You can specify any property from the node-postgres connection options
+const sql = waddler({ 
+  connection: { 
+    connectionString: process.env.DATABASE_URL!,
+    ssl: true
+  }
+});
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+});
+const sql = waddler({ client: pool });
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+});
+const sql = waddler({ client: pool, extensions: [queryStream()] });
+```
+</CodeTabs>

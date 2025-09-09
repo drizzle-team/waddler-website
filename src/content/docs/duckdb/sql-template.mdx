@@ -5,7 +5,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 # SQL template
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-neo-new)
+- Quick start with Waddler - [read here](/docs/duckdb/get-started/duckdb-new)
 </Prerequisites>
 
 SQL template is the core of Waddler.  
@@ -35,6 +35,7 @@ SQL template is packed with convenient goodies:
 | `sql.values`     | conveniently pass values to insert statements                         |
 | `sql.raw`        | dynamically build SQL by embedding raw strings                        |
 | `sql.default`    | SQL `DEFAULT` values for queries                                      |
-| `toSQL`          | prepares and converts sql query to `{ query: string, params: any[] }` |
+| `append`         | conveniently append SQL templates                                     |
+| `toSQL`          | prepares and converts sql query to `{ sql: string, params: any[] }`   |
 | `stream`         | streams result row by row                                             |
 | `chunked`        | streams result in chunks                                              |

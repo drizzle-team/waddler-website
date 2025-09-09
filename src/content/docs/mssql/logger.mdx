@@ -1,0 +1,78 @@
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+
+# Logging
+
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+</Prerequisites>
+
+To enable default query logging, just pass `{ logger: true }` to the `waddler` initialization function:
+```typescript copy
+import { waddler } from 'waddler/...'; // driver specific
+
+const db = waddler({ logger: true });
+```
+
+You can also create a custom logger:
+```typescript copy
+import { Logger } from 'waddler';
+import { waddler } from 'waddler/...'; // driver specific
+
+class MyLogger implements Logger {
+  logQuery(query: string, params: unknown[]): void {
+    console.log({ query, params });
+  }
+}
+
+const db = waddler({ logger: new MyLogger() });
+```
+
+## metadata
+
+<CodeTabs items={["mssql"]}>
+{/* mssql */}
+```ts
+// metadata type
+type metadataType = {
+  rowsAffected: number[];
+  output: { [key: string]: any };
+  columns?: {
+    [name: string]: {
+        index: number;
+        name: string;
+        length: number;
+        type: (() => ISqlType) | ISqlType;
+        udt?: any;
+        scale?: number | undefined;
+        precision?: number | undefined;
+        nullable: boolean;
+        caseSensitive: boolean;
+        identity: boolean;
+        readOnly: boolean;
+    };
+}
+}
+
+// metadata example:
+{
+  output: {},
+  rowsAffected: [ 1 ],
+  columns: {
+    '': {
+      index: 0,
+      name: '',
+      length: 4,
+      type: [sql.Int],
+      scale: undefined,
+      precision: undefined,
+      nullable: true,
+      caseSensitive: false,
+      identity: false,
+      readOnly: true
+    }
+  }
+}
+```
+</CodeTabs>

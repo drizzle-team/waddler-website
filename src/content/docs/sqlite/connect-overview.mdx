@@ -8,8 +8,7 @@ import Prerequisites from "@mdx/Prerequisites.astro";
 import CodeTabs from '@mdx/CodeTabs.astro';
 import CodeTab from '@mdx/CodeTab.astro';
 import Section from "@mdx/Section.astro";
-import LinksList from "@mdx/LinksList.astro"
-import Flex from "@mdx/Flex.astro"
+import ConnectOverviewNextSteps from '@mdx/ConnectOverviewNextSteps.mdx'
 
 # Database connection with Waddler
 Waddler runs SQL queries on your database via **database drivers**.
@@ -17,7 +16,7 @@ Waddler runs SQL queries on your database via **database drivers**.
 
 <CodeTab>
 ```ts
-import { waddler } from "waddler/node-postgres"
+import { waddler } from "waddler/better-sqlite3"
 
 const sql = waddler(process.env.DATABASE_URL);
 const usersCount = await sql`select count(*) from ${sql.identifier('users')};`;
@@ -31,7 +30,7 @@ select count(*) from "users"; -│               │
                                │               │- [{ count: 0 }]
                                v               │
                             ┌─────────────────────┐
-                            │    node-postgres    │ <--- database driver
+                            │   better-sqlite3    │ <--- database driver
                             └─────────────────────┘
                                │               ʌ
 01101000 01100101 01111001    -│               │
@@ -44,17 +43,15 @@ select count(*) from "users"; -│               │
 </CodeTab>
 </CodeTabs>
 
-Under the hood Waddler will create a **node-postgres** driver instance
+Under the hood Waddler will create a **better-sqlite3** driver instance
 <Section>
 ```ts
 // above is equivalent to
-import { waddler } from "waddler/node-postgres";
-import { Pool } from "pg";
+import { waddler } from "waddler/better-sqlite3";
+import Client from 'better-sqlite3';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-const sql = waddler({ client: pool });
+const client = new Client(process.env.DATABASE_URL);
+const sql = waddler({ client });
 ```
 </Section>
 
@@ -107,60 +104,16 @@ const sql = waddler({ client: expo });
 
 #### Database connection URL
 Just in case if you're not familiar with database connection URL concept
-```
-postgresql://alex:AbC123dEf@ep-cool-darkness-123456.us-east-2.aws.neon.tech/dbname
-             └──┘ └───────┘ └─────────────────────────────────────────────┘ └────┘
-              ʌ    ʌ          ʌ                                              ʌ
-        role -│    │          │- hostname                                    │- database
-                   │
-                   │- password
 
+Local database file:
 ```
-#### Next steps
-Feel free to check out per-driver documentations  
+./<path-to-your-local-database-file>
+```
 
-<rem/>
-<Flex>
-  <LinksList 
-    title='PostgreSQL drivers'
-    links={[
-        ["PostgreSQL", "/docs/connect-postgresql"], 
-        ["Neon", "/docs/connect-neon"], 
-        ["Vercel Postgres", "/docs/connect-vercel-postgres"],
-        ["Supabase", "/docs/connect-supabase"],
-        ["Xata", "/docs/connect-xata"],
-        ["PGLite", "/docs/connect-pglite"],
-      ]}
-  />
-  <LinksList 
-    title='Gel drivers'
-    links={[
-        ["Gel", "/docs/connect-gel"],
-      ]}
-  />
-  <LinksList 
-    title='MySQL drivers'
-    links={[
-        ["MySQL", "/docs/connect-mysql"], 
-        ["PlanetsScale", "/docs/connect-planetscale"], 
-        ["TiDB", "/docs/connect-tidb"],
-      ]}
-  />
-  <LinksList 
-  title='SQLite drivers'
-  links={[
-      ["SQLite", "/docs/connect-sqlite"], 
-      ["Turso", "/docs/connect-turso"], 
-      ["Cloudflare D1", "/docs/connect-cloudflare-d1"],
-      ["Bun SQLite", "/docs/connect-bun-sqlite"],
-    ]}
-  />
-  <LinksList 
-  title='Native SQLite'
-  links={[
-      ["Expo SQLite", "/docs/get-started/expo-new"], 
-      ["OP SQLite", "/docs/connect-op-sqlite"], 
-    ]}
-  />
-</Flex>
-{/* TODO: @AndriiSherman ["AWS Data API", "/docs/get-started/aws-data-api"],  */}
+Turso database url (for `waddler/libsql`):
+```
+libsql://<database>-<username>.aws-eu-west-1.turso.io
+```
+You should obtain your Turso database URL from the Turso website. The example above is provided only to illustrate the URL format.
+
+<ConnectOverviewNextSteps/>

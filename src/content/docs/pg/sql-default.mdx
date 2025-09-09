@@ -20,7 +20,8 @@ const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
 await sql`insert into "users" ("name", "created_at") values ${values}`;
 ```
 ```sql
-insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', default);
+insert into "users" ("name", "created_at") values ($1, default), ($2, default);
+-- params: ["Dan", "Alex"]
 ```
 </Section>
 
@@ -37,6 +38,7 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
 ```
 ```sql
-insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into "users" ("id", "name", "age") values (default, $1, $2), (default, $3, $4) returning "id", "name", "age";
+-- params: ["Oleksii", 20, "Alex", 23]
 ```
 </Section>

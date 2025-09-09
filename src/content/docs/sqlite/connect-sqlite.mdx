@@ -23,7 +23,7 @@ At the driver level, there may not be many differences between the two, but the 
 ## libsql
 #### Step 1 - Install packages
 <Npm>
-waddler @libsql/client
+waddler @libsql/client dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver
@@ -36,6 +36,7 @@ Waddler has native support for all @libsql/client driver variations:
 #### Step 3 - make a query
 <CodeTabs items={["libsql", "libsql with config"]}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/libsql';
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -46,7 +47,7 @@ const result = await sql`select 1;`;
 import { waddler } from 'waddler/libsql';
 
 // You can specify any property from the libsql connection options
-const sql = waddler({ connection: { url:'', authToken: '' }});
+const sql = waddler({ connection: { url:'...', authToken: '...' }});
  
 const result = await sql`select 1;`;
 ```
@@ -56,6 +57,7 @@ If you need a synchronous connection, you can use our additional connection API,
 where you specify a driver connection and pass it to the Waddler instance.
 
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/libsql';
 import { createClient } from '@libsql/client';
 
@@ -68,13 +70,14 @@ const result = await sql`select 1;`;
 ## better-sqlite3
 #### Step 1 - Install packages
 <Npm>
-waddler better-sqlite3
+waddler better-sqlite3 dotenv
 -D @types/better-sqlite3
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={["better-sqlite3", "better-sqlite3 with config"]}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/better-sqlite3';
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -82,6 +85,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/better-sqlite3';
 
 // You can specify any property from the better-sqlite3 connection options

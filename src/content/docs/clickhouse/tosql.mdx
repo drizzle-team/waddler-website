@@ -5,12 +5,12 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # Waddler toSQL
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/get-started/clickhouse-new)
+- Quick start with Waddler - [read here](/docs/clickhouse/get-started/clickhouse-new)
 - Waddler SQL template - [read here](/docs/clickhouse/sql-template)
 </Prerequisites>
 <br/>
 
-`.toSQL()` prepares and prints you SQL query as `{ query: string, params: any[] }`:
+`.toSQL()` prepares and prints you SQL query as `{ sql: string, params: {[name: string]: any} }`:
 ```ts
 console.log(sql`select * from users`.toSQL());
 console.log(sql`select * from users where id = ${10}`.toSQL());
@@ -18,11 +18,11 @@ console.log(sql`select * from users where id = ${10}`.toSQL());
 
 ```shell
 {
-  query: "select * from users",
-  params: [],
+  sql: "select * from users",
+  params: {},
 }
 {
-  query: "select * from users where id = {param1:String}",
+  sql: "select * from users where id = {param1:Int32}",
   params: { "param1": 10 },
 }
 ```

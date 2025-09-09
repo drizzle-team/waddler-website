@@ -12,12 +12,13 @@ Waddler natively supports `@clickhouse/client` with `waddler/clickhouse` package
 
 #### Step 1 - Install packages
 <Npm>
-waddler @clickhouse/client
+waddler @clickhouse/client dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={['clickhouse', 'clickhouse with config']}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from "waddler/clickhouse";
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -25,6 +26,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from "waddler/clickhouse";
 
 // You can specify any property from the clickhouse connection options

@@ -20,6 +20,5 @@
   ["tosql", "`toSQL`"],
   ["logger", "`logger`"],
   "---",
-  ["types", "Types"],
-  ["pooling", "Pooling"]
+  ["types", "Types"]
 ]

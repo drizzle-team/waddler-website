@@ -16,14 +16,14 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 
 <Section>
 ```ts
-await sql`insert into "users" ("name") values ${sql.values([["Dan"]])}`;
+await sql`insert into "users" ("name") values ${sql.values([["Dan"]])};`;
 
 const values = sql.values([["Dan", "dan@acme.com", 25]]);
-await sql`insert into "users" ("name", "email", "age") values ${values}`;
+await sql`insert into "users" ("name", "email", "age") values ${values};`;
 ```
 ```sql
-insert into "users" ("name") values ('Dan');
-insert into "users" ("name", "email", "age") values ('Dan', 'dan@acme.com', 25);
+insert into "users" ("name") values ($1); -- params: ["Dan"]
+insert into "users" ("name", "email", "age") values ($1, $2, $3); -- params: ["Dan", "dan@acme.com", 25]
 ```
 </Section>
 <Section>
@@ -32,20 +32,22 @@ const values = sql.values([
 	["Dan", "dan@acme.com", 25], 
 	["Oleksii", "oleksii@acme.com", 22]
 ]);
-await sql`insert into "users" ("name", "email", "age") values ${values}`;
+await sql`insert into "users" ("name", "email", "age") values ${values};`;
 ```
 ```sql
-insert into "users" ("name", "email", "age") values ('Dan', 'dan@acme.com', 25), ('Oleksii', 'oleksii@acme.com', 22);
+insert into "users" ("name", "email", "age") values ($1, $2, $3), ($4, $5, $6);
+-- params: ["Dan", "dan@acme.com", 25, "Oleksii", "Oleksii@acme.com", 22]
 ```
 </Section>
 
 Waddler provides a convinient [`sql.default`](/docs/gel/sql-default) for SQL `DEFAULT` values:
 ```ts
 const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
-await sql`insert into "users" ("name", "created_at") values ${values}`;
+await sql`insert into "users" ("name", "created_at") values ${values};`;
 ```
 ```sql
-insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', default);
+insert into "users" ("name", "created_at") values ($1, default), ($2, default);
+-- params: ["Dan", "Alex"]
 ```
 
 Complete example with [`sql.identifier`](/docs/gel//sql-identifier) and [`sql.default`](/docs/gel/sql-default):
@@ -61,6 +63,7 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
 ```
 ```sql
-insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into "users" ("id", "name", "age") values (default, $1, $2), (default, $3, $4) returning "id", "name", "age";
+-- params: ["Oleksii", 20, "Alex", 23 ]
 ```
 </Section>

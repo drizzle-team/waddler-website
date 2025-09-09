@@ -1,0 +1,87 @@
+import Tab from '@mdx/Tab.astro';
+import Tabs from '@mdx/Tabs.astro';
+import Npm from "@mdx/Npm.astro";
+import Callout from '@mdx/Callout.astro';
+import Steps from '@mdx/Steps.astro';
+import AnchorCards from '@mdx/AnchorCards.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from "@mdx/CodeTabs.astro";
+
+# Waddler \<\> CockroachDB
+<Prerequisites>
+- node-postgres [basics](https://node-postgres.com/)
+</Prerequisites>
+
+Waddler has native support for CockroachDB connections with the `node-postgres` driver.
+
+#### Step 1 - Install packages
+<Npm>
+waddler pg dotenv
+-D @types/pg
+</Npm>
+
+#### Step 2 - Initialize the driver and make a query
+<CodeTabs items={["cockroach", "cockroach with config"]}>
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+
+const sql = waddler(process.env.DATABASE_URL!);
+
+const result = await sql`select 1;`;
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+
+// You can specify any property from the node-postgres connection options
+const sql = waddler({ 
+  connection: { 
+    connectionString: process.env.DATABASE_URL!,
+    ssl: false
+  }
+});
+
+const result = await sql`select 1;`;
+```
+</CodeTabs>
+
+
+If you need to provide your existing driver:
+
+<CodeTabs items={['with existing driver', 'with pg-query-stream extension']}>
+```typescript copy
+import 'dotenv/config';
+// Make sure to install the 'pg' package 
+import { waddler } from "waddler/cockroach";
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+const sql = waddler({ client: pool });
+ 
+const result = await sql`select 1;`;
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/cockroach';
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+});
+
+const sql = waddler({ client: pool, extensions: [queryStream()] });
+
+const stream = sql`select 1;`.stream();
+for await (const row of stream) {
+  ...
+}
+```
+</CodeTabs>

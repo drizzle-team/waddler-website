@@ -1,0 +1,121 @@
+import CodeTabs from "@mdx/CodeTabs.astro";
+import Section from "@mdx/Section.astro";
+
+<CodeTabs items={['node-mssql', 'node-mssql with config', 'your mssql driver', 'AutoPool']}>
+<Section>
+```typescript copy
+import 'dotenv/config';
+import { waddler } from "waddler/node-mssql";
+
+const sql = waddler(process.env.DATABASE_URL);
+```
+```ts copy
+// process.env.DATABASE_URL should be provided in the following format:
+`Server=<server>,<port>;Database=<database>;User Id=<user>;Password=<password>;Encrypt=<encrypt>;TrustServerCertificate=<trustServerCertificate>;`
+```
+</Section>
+
+<Section>
+```typescript copy
+import 'dotenv/config';
+import { waddler } from "waddler/node-mssql";
+
+// connection can accept either a database url or an mssql config
+const sql = waddler({ connection: process.env.DATABASE_URL });
+```
+```ts copy
+// database url should be in the following format:
+`Server=<server>,<port>;Database=<database>;User Id=<user>;Password=<password>;Encrypt=<encrypt>;TrustServerCertificate=<trustServerCertificate>;`
+
+// mssql config example:
+{
+	server: 'localhost',
+	port: 1433,
+	database: 'master',
+	user: 'SA',
+	password: '...',
+	pool: {
+		max: 1,
+	},
+	options: {
+		requestTimeout: 100_000,
+		encrypt: true, // for azure
+		trustServerCertificate: true,
+	},
+}
+```
+</Section>
+
+<Section>
+```ts
+import 'dotenv/config';
+import { waddler } from "waddler/node-mssql";
+import mssql from 'mssql';
+
+async function main() {
+  // mssql.connect can accept either a database url or an mssql config
+  const client = await mssql.connect(process.env.DATABASE_URL);
+	await client.connect();
+
+	const sql = waddler({ client });
+}
+
+main();
+```
+```ts copy
+// database url should be in the following format:
+`Server=<server>,<port>;Database=<database>;User Id=<user>;Password=<password>;Encrypt=<encrypt>;TrustServerCertificate=<trustServerCertificate>;`
+
+// mssql config example:
+{
+	server: 'localhost',
+	port: 1433,
+	database: 'master',
+	user: 'SA',
+	password: '...',
+	pool: {
+		max: 1,
+	},
+	options: {
+		requestTimeout: 100_000,
+		encrypt: true, // for azure
+		trustServerCertificate: true,
+	},
+}
+```
+</Section>
+
+<Section>
+```ts
+import 'dotenv/config';
+import { AutoPool, waddler } from 'waddler/node-mssql';
+import mssql from 'mssql';
+
+// AutoPool can accept either a database url or an mssql config
+const client = new AutoPool(process.env.DATABASE_URL);
+
+const sql = waddler({ client: client });
+```
+```ts
+// database url should be in the following format:
+`Server=<server>,<port>;Database=<database>;User Id=<user>;Password=<password>;Encrypt=<encrypt>;TrustServerCertificate=<trustServerCertificate>;`
+
+// mssql config example:
+{
+	server: 'localhost',
+	port: 1433,
+	database: 'master',
+	user: 'SA',
+	password: '...',
+	pool: {
+		max: 1,
+	},
+	options: {
+		requestTimeout: 100_000,
+		encrypt: true, // for azure
+		trustServerCertificate: true,
+	},
+}
+```
+</Section>
+</CodeTabs>

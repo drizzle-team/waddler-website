@@ -6,10 +6,10 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 
 # SQL default
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/sqlite/get-started/sqlite-new)
-- Waddler SQL template - [read here](/docs/sqlite/sql-template)
-- `sql.identifier` - [read here](/docs/sqlite/sql-identifier)
-- `sql.values` - [read here](/docs/sqlite/sql-values)
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+- `sql.identifier` - [read here](/docs/cockroach/sql-identifier)
+- `sql.values` - [read here](/docs/cockroach/sql-values)
 </Prerequisites>
 <br/>
 
@@ -17,14 +17,15 @@ import YoutubeCards from '@mdx/YoutubeCards.astro';
 <Section>
 ```ts
 const values = sql.values([["Dan", sql.default], ["Alex", sql.default]])
-await sql`insert into "users" ("name", "created_at") values ${values}`;
+await sql`insert into "users" ("name", "created_at") values ${values};`;
 ```
 ```sql
-insert into "users" ("name", "created_at") values ('Dan', default), ('Alex', default);
+insert into "users" ("name", "created_at") values ($1, default), ($2, default);
+-- params: ["Dan", "Alex"]
 ```
 </Section>
 
-Complete example with [`sql.identifier`](/docs/sqlite/sql-identifier) and `sql.default`:
+Complete example with [`sql.identifier`](/docs/cockroach/sql-identifier) and `sql.default`:
 <Section>
 ```ts
 const table = sql.identifier("users")
@@ -37,6 +38,7 @@ const values = sql.values([
 await sql`insert into ${table} (${columns}) values ${values} returning ${columns};`;
 ```
 ```sql
-insert into "users" ("id", "name", "age") values (default, 'Oleksii', 20), (default, 'Alex', 23);
+insert into "users" ("id", "name", "age") values (default, $1, $2), (default, $3, $4) returning "id", "name", "age";
+-- params: ["Oleksii", 20, "Alex", 23]
 ```
 </Section>

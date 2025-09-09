@@ -25,7 +25,7 @@ There are a few differences between the `node-postgres` and `postgres.js` driver
 ## node-postgres
 #### Step 1 - Install packages
 <Npm>
-waddler pg
+waddler pg dotenv
 -D @types/pg
 </Npm>
 
@@ -36,6 +36,7 @@ import 'dotenv/config';
 import { waddler } from 'waddler/node-postgres';
 
 const sql = waddler(process.env.DATABASE_URL!);
+
 const result = await sql`select 1;`;
 ```
 ```typescript copy
@@ -49,6 +50,7 @@ const sql = waddler({
     ssl: true
   }
 });
+
 const result = await sql`select 1;`;
 ```
 </CodeTabs>
@@ -58,6 +60,7 @@ If you need to provide your existing driver:
 
 <CodeTabs items={['with existing driver', 'with pg-query-stream extension']}>
 ```typescript copy
+import 'dotenv/config';
 // Make sure to install the 'pg' package 
 import { waddler } from "waddler/node-postgres";
 import pg from 'pg';
@@ -95,12 +98,13 @@ for await (const row of stream) {
 ## postgres.js
 #### Step 1 - Install packages
 <Npm>
-waddler postgres
+waddler postgres dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={["postgres.js", "postgres.js with config"]}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/postgres-js';
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -108,6 +112,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/postgres-js';
 
 // You can specify any property from the postgres-js connection options
@@ -125,6 +130,7 @@ const result = await sql`select 1;`;
 If you need to provide your existing driver:
 
 ```typescript copy
+import 'dotenv/config';
 // Make sure to install the 'postgres' package
 import { waddler } from 'waddler/postgres-js';
 import postgres from 'postgres';

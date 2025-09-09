@@ -20,6 +20,7 @@ import Prerequisites from '@mdx/Prerequisites.astro';
 const response = await sql.unsafe('select * from users where id = $1', [10]);
 ```
 ```sql
-select * from users where id = 10;
+select * from users where id = $1;
+-- params: [10]
 ```
 </Section>

@@ -19,11 +19,11 @@ await sql`select 1`;
 
 It's based on [tagged templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates). This enables powerful, safe, yet simple SQL API in JavaScript and TypeScript:
 ```ts
-await sql`select * from users where id = ${10}`; 
+await sql`select * from users where id = ${10};`; 
 // ^ gets parametrised, protects from SQL injections
 ```
 ```sql
-select * from users where id = $1;
+select * from users where id = ?;
 -- 10 will be provided in params [10]
 ```
 
@@ -34,7 +34,7 @@ SQL template is packed with convenient goodies:
 | `sql.identifier` | conveniently pass identifiers to SQL query with automatic escaping    |
 | `sql.values`     | conveniently pass values to insert statements                         |
 | `sql.raw`        | dynamically build SQL by embedding raw strings                        |
-| `sql.default`    | SQL `DEFAULT` values for queries                                      |
-| `toSQL`          | prepares and converts sql query to `{ query: string, params: any[] }` |
+| `append`         | conveniently append SQL templates                                     |
+| `toSQL`          | prepares and converts sql query to `{ sql: string, params: any[] }`   |
 | `stream`         | streams result row by row                                             |
 | `chunked`        | streams result in chunks                                              |

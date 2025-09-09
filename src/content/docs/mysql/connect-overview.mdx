@@ -1,0 +1,119 @@
+import Tab from '@mdx/Tab.astro';
+import Tabs from '@mdx/Tabs.astro';
+import Npm from "@mdx/Npm.astro";
+import Callout from '@mdx/Callout.astro';
+import Steps from '@mdx/Steps.astro';
+import AnchorCards from '@mdx/AnchorCards.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from '@mdx/CodeTabs.astro';
+import CodeTab from '@mdx/CodeTab.astro';
+import Section from "@mdx/Section.astro";
+import ConnectOverviewNextSteps from '@mdx/ConnectOverviewNextSteps.mdx'
+
+# Database connection with Waddler
+Waddler runs SQL queries on your database via **database drivers**.
+<CodeTabs items={["index.ts"]}>
+
+<CodeTab>
+```ts
+import { waddler } from "waddler/mysql2"
+
+const sql = waddler(process.env.DATABASE_URL);
+const usersCount = await sql`select count(*) from ${sql.identifier('users')};`;
+```
+```  
+          ┌─────────────────────────────────────────────────────────┐
+          │  sql`select count(*) from ${sql.identifier('users')};`  │ <--- waddler query
+          └─────────────────────────────────────────────────────────┘     
+                               │               ʌ
+select count(*) from `users`; -│               │
+                               │               │- [{ count: 0 }]
+                               v               │
+                            ┌─────────────────────┐
+                            │       mysql2        │ <--- database driver
+                            └─────────────────────┘
+                               │               ʌ
+01101000 01100101 01111001    -│               │
+                               │               │- 01110011 01110101 01110000
+                               v               │
+                            ┌────────────────────┐
+                            │      Database      │ 
+                            └────────────────────┘
+```
+</CodeTab>
+</CodeTabs>
+
+Under the hood Waddler will create a **mysql2** driver instance
+<Section>
+```ts
+// above is equivalent to
+import { waddler } from "waddler/mysql2";
+import mysql from 'mysql2/promise';
+
+const pool = mysql.createPool({ 
+  uri: process.env.DATABASE_URL
+});
+const sql = waddler({ client: pool });
+```
+</Section>
+
+Waddler is by design natively compatible with every **edge** or **serverless** runtime, whenever you'd need access to a serverless database - we've got you covered
+
+<CodeTabs items={["Neon HTTP", "Neon with websockets", "Vercel Postgres", "PlanetScale HTTP", "Cloudflare d1"]}>
+```ts
+import { waddler } from "waddler/neon-http";
+
+const sql = waddler(process.env.DATABASE_URL);
+```
+```ts
+import { waddler } from "waddler/neon-serverless";
+
+const sql = waddler(process.env.DATABASE_URL);
+```
+```ts
+import { waddler } from "waddler/vercel-postgres";
+
+const sql = waddler();
+```
+```ts
+import { waddler } from "waddler/planetscale";
+
+const sql = waddler(process.env.DATABASE_URL);
+```
+```ts
+import { waddler } from "waddler/d1";
+
+const sql = waddler({ connection: env.DB });
+```
+</CodeTabs>
+
+And yes, we do support runtime specific drivers like [Bun SQLite](/docs/connect-bun-sqlite) or [Expo SQLite](/docs/connect-expo-sqlite):
+<Section>
+```ts
+import { waddler } from "waddler/bun-sqlite"
+
+const sql = waddler(); // <--- will create an in-memory db
+const sql = waddler("./sqlite.db");
+```
+```ts
+import { waddler } from "waddler/expo-sqlite";
+import { openDatabaseSync } from "expo-sqlite";
+
+const expo = openDatabaseSync("db.db");
+const sql = waddler({ client: expo });
+```
+</Section>
+
+#### Database connection URL
+Just in case if you're not familiar with database connection URL concept
+```
+mysql://alex:AbC123dEf@ep-cool-darkness-123456.us-east-2.aws.neon.tech/dbname
+        └──┘ └───────┘ └─────────────────────────────────────────────┘ └────┘
+        ʌ    ʌ          ʌ                                              ʌ
+  role -│    │          │- hostname                                    │- database
+             │
+             │- password
+
+```
+
+<ConnectOverviewNextSteps/>

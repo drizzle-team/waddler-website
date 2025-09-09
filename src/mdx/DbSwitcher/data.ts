@@ -56,6 +56,26 @@ export const dbSwitcherItems: DbSwitcherItem[] = [
       },
     },
   },
+   {
+    id: "cockroach",
+    name: "CockroachDB",
+    path: "/docs/cockroach/overview",
+    icon: {
+      light: {
+        path: "/public/svg/cockroach.svg",
+        style: {
+          width: 18,
+        },
+      },
+      dark: {
+        path: "/public/svg/cockroach.svg",
+        style: {
+          width: 18,
+          fill: "#f0f0f0",
+        },
+      },
+    },
+  },
   {
     id: "clickhouse",
     name: "ClickHouse",
@@ -113,6 +133,27 @@ export const dbSwitcherItems: DbSwitcherItem[] = [
       },
       dark: {
         path: "/public/svg/mysql.svg",
+        style: {
+          width: 18,
+          fill: "#F0F0F0",
+        },
+      },
+    },
+  },
+  {
+    id: "mssql",
+    name: "MsSQL",
+    path: "/docs/mssql/overview",
+    icon: {
+      light: {
+        path: "/public/svg/mssql.svg",
+        style: {
+          width: 18,
+          fill: "#00546B",
+        },
+      },
+      dark: {
+        path: "/public/svg/mssql.svg",
         style: {
           width: 18,
           fill: "#F0F0F0",

@@ -1,0 +1,24 @@
+[
+  "Fundamentals",
+  ["connect-overview", "Database connection"],
+
+  "Connect",
+  ["connect-mssql", "MsSQL"],
+  "sql",
+  ["sql-template", "`sql`"],
+  ["sql-identifier", "`sql.identifier`"],
+  ["sql-values", "`sql.values`"],
+  ["sql-raw", "`sql.raw`"],
+  ["sql-unsafe", "`sql.unsafe`"],
+  ["sql-default", "`sql.default`"],
+  ["sql-append", "`sql.append`"],
+  "---",
+  ["builder", "Standalone `sql`"],
+  "---",
+  ["tosql", "`toSQL`"],
+  ["logger", "`logger`"],
+  ["stream", "`stream`"],
+  ["chunked", "`chunked`"],
+  "---",
+  ["types", "Types"]
+]

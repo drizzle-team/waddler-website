@@ -3,7 +3,7 @@ import Section from '@mdx/Section.astro';
 
 # Standalone SQL template
 <Prerequisites>
-- Quick start with Waddler - [read here](/docs/mysql/get-started/gel-new)
+- Quick start with Waddler - [read here](/docs/mysql/get-started/mysql-new)
 - Waddler SQL template - [read here](/docs/mysql/sql-template)
 - `sql.identifier` - [read here](/docs/mysql/sql-identifier)
 </Prerequisites>
@@ -15,15 +15,18 @@ or compose a part of a query to reuse it in different places. Let's check both s
 Building a query string and params without a database conenction
 <Section>
 ```ts
-import { sql } from "waddler/mysql"
+import { sql } from "waddler/mysql-core"
 
 // You can then reuse this query in other sql statements
-const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
+const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")};`;
 
 console.log(sqlQuery.toSQL());
 ```
-```sql
-select `id` from `users`;
+```ts
+{
+  sql: "select `id` from `users`;",
+  params: [],
+}
 ```
 </Section>
 
@@ -31,8 +34,8 @@ Building parts of a query in common functions and use it in a main sql query
 <Section>
 ```ts
 // sql-builder.ts
-import { SQL } from "waddler";
-import { sql } from "waddler/mysql";
+import { SQLQuery } from "waddler";
+import { sql } from "waddler/mysql-core";
 
 
 export type Filters = {
@@ -40,7 +43,7 @@ export type Filters = {
     age: number,
 }
 
-export function buildFilters(filters: Filters): SQL {
+export function buildFilters(filters: Filters): SQLQuery {
     return sql`${sql.identifier('email')} = ${filters.email} 
                 and ${sql.identifier('age')} = ${filters.age}`
 }

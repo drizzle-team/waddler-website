@@ -15,12 +15,13 @@ Waddler natively supports `mysql2` with `waddler/mysql2` package.
 
 #### Step 1 - Install packages
 <Npm>
-waddler mysql2
+waddler mysql2 dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={['mysql2', 'mysql with config']}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from "waddler/mysql2";
 
 const sql = waddler(process.env.DATABASE_URL);
@@ -28,6 +29,7 @@ const sql = waddler(process.env.DATABASE_URL);
 const result = await sql`select 1;`;
 ```
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from "waddler/mysql2";
 
 // You can specify any property from the mysql2 connection options
@@ -52,6 +54,8 @@ If you need to provide your existing driver:
   });
 
   const sql = waddler({ client: connection });
+
+  const result = await sql`select 1;`;
   ```
   ```typescript copy
   import { waddler } from "waddler/mysql2";
@@ -65,5 +69,7 @@ If you need to provide your existing driver:
   });
 
   const sql = waddler({ client: poolConnection });
+
+  const result = await sql`select 1;`;
   ```
 </CodeTabs>

@@ -21,7 +21,7 @@ By default, passing `10` will generate this SQL and parameters array
 await sql`select * from ${sql.identifier("users")} where ${sql.identifier("id")} = ${10}`
 ```
 ```sql
-select * from `users` where id = {param1:String};
+select * from `users` where `id` = {param1:Int32};
 -- params: { param1: 10 }
 ```
 </Section>
@@ -31,10 +31,10 @@ You can use `sql.param` to override this behavior
 <Section>
 ```ts
 await sql`select * from ${sql.identifier("users")} 
-          where ${sql.identifier("id")} = ${sql.param(10, 'Int32')}`
+          where ${sql.identifier("id")} = ${sql.param(10, 'Int64')}`
 ```
 ```sql
-select * from `users` where id = {param1:Int32};
+select * from `users` where `id` = {param1:Int64};
 -- params: { param1: 10 }
 ```
 </Section>

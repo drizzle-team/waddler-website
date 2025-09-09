@@ -1,0 +1,47 @@
+import Section from '@mdx/Section.astro';
+import Callout from '@mdx/Callout.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+import YoutubeCards from '@mdx/YoutubeCards.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+
+# Waddler SQL unsafe
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/mssql/get-started/mssql-new)
+- Waddler SQL template - [read here](/docs/mssql/sql-template)
+- `sql.identifier` - [read here](/docs/mssql/sql-identifier)
+- `sql.raw` - [read here](/docs/mssql/sql-raw)
+</Prerequisites>
+<br/>
+
+`sql.unsafe` lets you use a client itself by providing sql string and params
+
+<Section>
+```ts
+const response = await sql.unsafe('select * from users where id = @p1', [10]);
+```
+```sql
+select * from users where id = @p1; 
+-- params: [10]
+```
+</Section>
+
+MsSql accepts parameter placeholders in the format: `@<parameter name>`
+
+During parameterization Waddler generates placeholders in the following way: `@p<parameter number>`, where the `parameter number` starts from 1. 
+These parameters are then bound to the query by their names.
+
+If you want to write a query with placeholders in your own format, you should provide a custom `getParamName` function in the options of the `sql.unsafe` function.
+
+<Section>
+```ts
+const response = await sql.unsafe(
+ 'select * from users where id = @par1', 
+ [10], 
+ { getParamName: (paramNumber: number) => `par${paramNumber}`, }
+);
+```
+```sql
+select * from users where id = @par1; 
+-- params: [10]
+```
+</Section>

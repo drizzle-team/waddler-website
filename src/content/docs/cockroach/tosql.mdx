@@ -1,0 +1,27 @@
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from '@mdx/Prerequisites.astro';
+import CodeTabs from '@mdx/CodeTabs.astro';
+
+# Waddler toSQL
+<Prerequisites>
+- Quick start with Waddler - [read here](/docs/cockroach/get-started/cockroach-new)
+- Waddler SQL template - [read here](/docs/cockroach/sql-template)
+</Prerequisites>
+<br/>
+
+`.toSQL()` prepares and prints you SQL query as `{ sql: string, params: any[] }`:
+```ts
+console.log(sql`select * from users`.toSQL());
+console.log(sql`select * from users where id = ${10}`.toSQL());
+```
+
+```shell
+{
+  sql: "select * from users",
+  params: [],
+}
+{
+  sql: "select * from users where id = $1::int4",
+  params: [10],
+}
+```

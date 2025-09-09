@@ -15,15 +15,18 @@ or compose a part of a query to reuse it in different places. Let's check both s
 Building a query string and params without a database conenction
 <Section>
 ```ts
-import { sql } from "waddler/duckdb"
+import { sql } from "waddler/duckdb-core"
 
 // You can then reuse this query in other sql statements
-const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")}`;
+const sqlQuery = sql`select ${sql.identifier("id")} from ${sql.identifier("users")};`;
 
 console.log(sqlQuery.toSQL());
 ```
-```sql
-select "id" from "users";
+```ts
+{
+  sql: 'select "id" from "users";',
+  params: [],
+}
 ```
 </Section>
 
@@ -31,15 +34,15 @@ Building parts of a query in common functions and use it in a main sql query
 <Section>
 ```ts
 // sql-builder.ts
-import { SQL, sql } from "waddler";
-import { sql } from "waddler/duckdb";
+import { SQLQuery } from "waddler";
+import { sql } from "waddler/duckdb-core";
 
 export type Filters = {
     email: string,
     age: number,
 }
 
-export function buildFilters(filters: Filters): SQL {
+export function buildFilters(filters: Filters): SQLQuery {
     return sql`${sql.identifier('email')} = ${filters.email} 
                 and ${sql.identifier('age')} = ${filters.age}`
 }

@@ -27,11 +27,11 @@ Prisma Postgres also has a [serverless driver](https://www.prisma.io/docs/postgr
 #### Step 1 - Install packages
 <CodeTabs items={["node-postgres (pg)", "postgres.js"]}>
 <Npm>
-waddler pg
+waddler pg dotenv
 </Npm>
 
 <Npm>
-waddler postgres
+waddler postgres dotenv
 </Npm>
 
 </CodeTabs>
@@ -40,6 +40,7 @@ waddler postgres
 #### Step 2 - Initialize the driver and make a query
 <CodeTabs items={["node-postgres (pg)", "postgres.js"]}>
 ```typescript 
+import 'dotenv/config';
 // Make sure to install the 'pg' package 
 import { waddler } from "waddler/node-postgres";
 import { Pool } from "pg";
@@ -52,6 +53,7 @@ const sql = waddler({ client: pool });
 const result = await sql`select 1;`;
 ```
 ```typescript
+import 'dotenv/config';
 // Make sure to install the 'postgres' package
 import { waddler } from 'waddler/postgres-js';
 import postgres from 'postgres';

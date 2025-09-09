@@ -15,7 +15,6 @@
   ["sql-values", "`sql.values`"],
   ["sql-raw", "`sql.raw`"],
   ["sql-unsafe", "`sql.unsafe`"],
-  ["sql-default", "`sql.default`"],
   ["sql-append", "`sql.append`"],
   "---",
   ["builder", "Standalone `sql`"],
@@ -25,8 +24,5 @@
   ["stream", "`stream`"],
   ["chunked", "`chunked`"],
   "---",
-  ["types", "Types"],
-  ["pooling", "Pooling"],
-  "---",
-  ["bundle-deploy", "Bundle and deploy"]
+  ["types", "Types"]
 ]

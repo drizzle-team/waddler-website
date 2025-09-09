@@ -24,7 +24,7 @@ SQLite-like `all`, `run` query methods syntax.
 
 #### Step 1 - Install packages
 <Npm>
-waddler @libsql/client
+waddler @libsql/client dotenv
 </Npm>
 
 #### Step 2 - Initialize the driver
@@ -41,6 +41,7 @@ If you need to provide your existing driver:
 
 <CodeTabs items={["default", "web"]}>
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/libsql';
 import { createClient } from '@libsql/client';
 
@@ -50,10 +51,9 @@ const client = createClient({
 });
 
 const sql = waddler({ client });
-
-const result = await sql`select 1;`.all();
 ```
 ```typescript copy
+import 'dotenv/config';
 import { waddler } from 'waddler/libsql/web';
 import { createClient } from '@libsql/client/web';
 
@@ -63,12 +63,10 @@ const client = createClient({
 });
 
 const sql = waddler({ client });
-
-const result = await sql`select 1;`.all();
 ```
 </CodeTabs>
 
-#### Step 3 - make a query
+#### Step 3 - Make a query
 
 ```ts
 import { waddler } from 'waddler/libsql';
