@@ -23,7 +23,7 @@ await sql`insert into \`users\` (\`name\`, \`email\`, \`age\`) values ${values}`
 ```
 ```sql
 insert into `users` (`name`) values ({param1:String}); -- params: {param1: "Dan"}
-insert into `users` (`name`) 
+insert into `users` (`name`, `email`, `age`) 
 values ({param1:String}, {param2:String}, {param3:String}); -- params: {param1: "Dan", param2: "dan@acme.com", param3: 25}
 ```
 </Section>
