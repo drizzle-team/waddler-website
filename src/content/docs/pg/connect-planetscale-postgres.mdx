@@ -1,0 +1,136 @@
+import Tab from '@mdx/Tab.astro';
+import Tabs from '@mdx/Tabs.astro';
+import Npm from "@mdx/Npm.astro";
+import Callout from '@mdx/Callout.astro';
+import Steps from '@mdx/Steps.astro';
+import AnchorCards from '@mdx/AnchorCards.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from "@mdx/CodeTabs.astro";
+
+# Waddler \<\> PostgreSQL
+<Prerequisites>
+- node-postgres [basics](https://node-postgres.com/)
+- postgres.js [basics](https://github.com/porsager/postgres?tab=readme-ov-file#usage)
+</Prerequisites>
+
+Waddler has native support for PostgreSQL connections with the `node-postgres` and `postgres.js` drivers.
+
+There are a few differences between the `node-postgres` and `postgres.js` drivers that we discovered while using both and integrating them with the Waddler. For example:
+
+- With `node-postgres`, you can install `pg-native` to boost the speed of `node-postgres` by approximately 10%.
+- `node-postgres` supports providing type parsers on a per-query basis without globally patching things. For more details, see [Types Docs](https://node-postgres.com/features/queries#types).
+- `postgres.js` uses prepared statements by default, which you may need to opt out of. This could be a potential issue in AWS environments, among others, so please keep that in mind.
+- If there's anything else you'd like to contribute, we'd be happy to receive your PRs [here](https://github.com/drizzle-team/waddler-website/pulls)
+
+## node-postgres
+#### Step 1 - Install packages
+<Npm>
+waddler pg
+-D @types/pg
+</Npm>
+
+#### Step 2 - Initialize the driver and make a query
+<CodeTabs items={["node-postgres", "node-postgres with config"]}>
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/node-postgres';
+
+const sql = waddler(process.env.DATABASE_URL!);
+const result = await sql`select 1;`;
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/node-postgres';
+
+// You can specify any property from the node-postgres connection options
+const sql = waddler({ 
+  connection: { 
+    connectionString: process.env.DATABASE_URL!,
+    ssl: true
+  }
+});
+const result = await sql`select 1;`;
+```
+</CodeTabs>
+
+
+If you need to provide your existing driver:
+
+<CodeTabs items={['with existing driver', 'with pg-query-stream extension']}>
+```typescript copy
+// Make sure to install the 'pg' package 
+import { waddler } from "waddler/node-postgres";
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+const sql = waddler({ client: pool });
+ 
+const result = await sql`select 1;`;
+```
+```typescript copy
+import 'dotenv/config';
+import { waddler } from 'waddler/node-postgres';
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL!,
+});
+
+const sql = waddler({ client: pool, extensions: [queryStream()] });
+
+const stream = sql`select 1;`.stream();
+for await (const row of stream) {
+  ...
+}
+```
+</CodeTabs>
+
+## postgres.js
+#### Step 1 - Install packages
+<Npm>
+waddler postgres
+</Npm>
+
+#### Step 2 - Initialize the driver and make a query
+<CodeTabs items={["postgres.js", "postgres.js with config"]}>
+```typescript copy
+import { waddler } from 'waddler/postgres-js';
+
+const sql = waddler(process.env.DATABASE_URL);
+
+const result = await sql`select 1;`;
+```
+```typescript copy
+import { waddler } from 'waddler/postgres-js';
+
+// You can specify any property from the postgres-js connection options
+const sql = waddler({ 
+  connection: { 
+    url: process.env.DATABASE_URL, 
+    ssl: true 
+  }
+});
+
+const result = await sql`select 1;`;
+```
+</CodeTabs>
+
+If you need to provide your existing driver:
+
+```typescript copy
+// Make sure to install the 'postgres' package
+import { waddler } from 'waddler/postgres-js';
+import postgres from 'postgres';
+
+const queryClient = postgres(process.env.DATABASE_URL);
+const sql = waddler({ client: queryClient });
+
+const result = await sql`select 1;`;
+```

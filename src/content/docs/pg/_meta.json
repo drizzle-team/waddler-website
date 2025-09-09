@@ -5,6 +5,7 @@
   "Connect",
   ["connect-postgresql", "PostgreSQL"],
   "---",
+  ["connect-planetscale-postgres", "PlanetScale Postgres"],
   ["connect-neon", "Neon"],
   ["connect-vercel-postgres", "Vercel Postgres"],
   ["connect-prisma-postgres", "Prisma Postgres"],

@@ -1,0 +1,69 @@
+import Npm from '@mdx/Npm.astro';
+import Callout from '@mdx/Callout.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from "@mdx/CodeTabs.astro";
+import WhatsNextPostgres from "@mdx/WhatsNextPostgres.astro";
+
+# Waddler \<\> SingleStore
+
+To use Waddler with a SingleStore database, you should use the `mysql2` driver
+
+According to the **[official website](https://github.com/sidorares/node-mysql2)**, 
+`mysql2` is a MySQL/SingleStore client for Node.js with focus on performance.  
+
+Waddler natively supports `mysql2` with `waddler/mysql2` package.
+
+#### Step 1 - Install packages
+<Npm>
+waddler mysql2
+</Npm>
+
+#### Step 2 - Initialize the driver and make a query
+<CodeTabs items={['mysql2', 'mysql with config']}>
+```typescript copy
+import { waddler } from "waddler/mysql2";
+
+const sql = waddler(process.env.DATABASE_URL);
+
+const result = await sql`select 1;`;
+```
+```typescript copy
+import { waddler } from "waddler/mysql2";
+
+// You can specify any property from the mysql2 connection options
+const sql = waddler({ connection:{ uri: process.env.DATABASE_URL }});
+
+const result = await sql`select 1;`;
+```
+</CodeTabs>
+
+If you need to provide your existing driver:
+
+<CodeTabs items={['Client connection', 'Pool connection']}>
+  ```typescript copy
+  import { waddler } from "waddler/mysql2";
+  import mysql from "mysql2/promise";
+
+  const connection = await mysql.createConnection({
+    host: "host",
+    user: "user",
+    database: "database",
+    ...
+  });
+
+  const sql = waddler({ client: connection });
+  ```
+  ```typescript copy
+  import { waddler } from "waddler/mysql2";
+  import mysql from "mysql2/promise";
+
+  const poolConnection = mysql.createPool({
+    host: "host",
+    user: "user",
+    database: "database",
+    ...
+  });
+
+  const sql = waddler({ client: poolConnection });
+  ```
+</CodeTabs>

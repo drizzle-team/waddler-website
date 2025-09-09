@@ -1,0 +1,103 @@
+import Tab from '@mdx/Tab.astro';
+import Tabs from '@mdx/Tabs.astro';
+import Npm from "@mdx/Npm.astro";
+import Callout from '@mdx/Callout.astro';
+import Steps from '@mdx/Steps.astro';
+import AnchorCards from '@mdx/AnchorCards.astro';
+import Breadcrumbs from '@mdx/Breadcrumbs.astro';
+import Prerequisites from "@mdx/Prerequisites.astro";
+import CodeTabs from "@mdx/CodeTabs.astro";
+import FileStructure from '@mdx/get-started/FileStructure.mdx';
+import InstallPackages from '@mdx/get-started/InstallPackages.mdx';
+import ConnectPostgreSQL from '@mdx/get-started/postgresql/ConnectPostgreSQL.mdx'
+import CreateTable from '@mdx/get-started/postgresql/CreateTable.mdx'
+import RunFile from '@mdx/get-started/RunFile.mdx';
+import QueryDatabase from '@mdx/get-started/QueryDatabase.mdx';
+import SetupEnv from '@mdx/get-started/SetupEnv.mdx';
+
+<Breadcrumbs/>
+
+# Get Started with Waddler and PlanetScale Postgres
+
+<Prerequisites>
+  - **dotenv** - package for managing environment variables - [read here](https://www.npmjs.com/package/dotenv)
+  - **tsx** - package for running TypeScript files - [read here](https://tsx.is/)
+  - **PlanetScale Postgres** - serverless Postgres platform - [read here](https://planetscale.com/postgres)
+</Prerequisites>
+
+Waddler has native support for PlanetScale Postgre connections with the `node-postgres` and `postgres.js` drivers.
+
+We will use `node-postgres` for this get started example. But if you want to find more ways to connect to postgresql check
+
+our [PostgreSQL Connection](/docs/connect-postgresql) page 
+<FileStructure/>
+
+#### Step 1 - Install **node-postgres** package
+<InstallPackages lib='pg' devlib=' @types/pg'/>
+
+#### Step 2 - Setup connection variables
+
+<SetupEnv env_variable='DATABASE_URL' />
+
+<Callout title='tips'>
+If you don't have a PostgreSQL database yet and want to create one for testing, you can use our guide on how to set up PostgreSQL in Docker.
+
+The PostgreSQL in Docker guide is available [here](https://orm.drizzle.team/docs/guides/postgresql-local-setup). Go set it up, generate a database URL (explained in the guide), and come back for the next steps
+</Callout>
+
+#### Step 3 - Connect Waddler to the database
+
+<ConnectPostgreSQL/>
+
+#### Step 4 - Create a table
+
+<CreateTable />
+
+#### Step 5 - Seed and Query the database
+
+<QueryDatabase dialect='node-postgres' connection_string='process.env.DATABASE_URL!'/>
+
+**Streaming**
+
+<Callout title='Warning'>
+For now streaming doesn't work with postgres.js driver.
+</Callout>
+
+```typescript copy filename="src/index.ts"
+import 'dotenv/config';
+import pg from 'pg';
+import { waddler } from 'waddler/node-postgres';
+import { queryStream } from 'waddler/extensions/pg-query-stream';
+
+const { Client } = pg;
+
+async function main() {
+  const client = new Client(process.env.DATABASE_URL!);
+	await client.connect();
+
+	const sql = waddler({ client, extensions: [queryStream()] });
+
+	const stream = sql`select * from users;`.stream();
+
+	console.log('Streaming users one at a time from the database.')
+    for await (const user of stream) {
+        console.log(user)
+        /*
+        const user: {
+          id: number;
+          name: string;
+          age: number;
+          email: string;
+        }
+        */		
+	}
+
+	await client.end();
+}
+
+main();
+```
+
+#### Step 6 - Run index.ts file
+
+<RunFile/>

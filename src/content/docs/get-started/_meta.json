@@ -1,5 +1,6 @@
 [
   ["postgresql-new", "PostgreSQL"],
+  ["planetscale-postgres-new", "PlanetScale Postgres"],
   ["neon-new", "PostgreSQL"],
   ["supabase-new", "PostgreSQL"],
   ["xata-new", "PostgreSQL"],

@@ -6,6 +6,7 @@
   ["connect-mysql", "MySQL"],
   "---",
   ["connect-planetscale", "PlanetScale"],
+  ["connect-singlestore", "SingleStore"],
   ["connect-tidb" , "TiDB"],
   "sql",
   ["sql-template", "`sql`"],
