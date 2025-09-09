@@ -61,7 +61,7 @@ await sql`insert into "users" ("name", "email", "age") values ${values}`;
 ```
 ```sql
 insert into "users" ("name") values ('Dan');
-insert into "users" ("name") values ('Dan', 'dan@acme.com', 25);
+insert into "users" ("name", "email", "age") values ('Dan', 'dan@acme.com', 25);
 ```
 </Section>
 
